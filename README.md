@@ -1,2 +1,2 @@
-# Palmas-Street-Clothes-Shop
-Tienda Virtual para la venta de Ropa para Hombres - Mujeres y Accesorios
+# Proyecto Empresarial RICO
+Distribuidora de Alimentos Avícolas
