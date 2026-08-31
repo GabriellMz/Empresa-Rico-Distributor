@@ -38,15 +38,24 @@ Bienvenido al repositorio oficial del proyecto web para **RICO**. Esta aplicaci�
 ## 📁 Estructura del Proyecto
 
 ```text
-rico-web/
+EMPRESA-RICO-DISTRIBUTOR/
 │
-├── assets/
-│   ├── css/
-│   │   └── styles.css          # Estilos personalizados
-│   ├── js/
-│   │   ├── main.js             # Lógica general e interacción
-│   │   └── supabaseClient.js   # Configuración y conexión con Supabase
-│   └── img/                    # Recursos gráficos y multimedia
+├── public/                          <-- Carpeta principal del Front-end (Lo que se ve en la web)
+│   ├── assets/                      <-- Recursos multimedia y gráficos
+│   │   ├── img/                     
+│   │   │   ├── Clientes/            <-- Logos de clientes (redondos.jpg, San Fernando, Segoviana)
+│   │   │   ├── Imagenes Carrusel/   <-- Fotos para la portada (carrusel1.png, carrusel2.jpg, etc.)
+│   │   │   ├── Logo Rico/           <-- Logotipos oficiales de la empresa
+│   │   │   ├── Logo UTP/            <-- Logotipo de la universidad
+│   │   │   ├── Marcas/              <-- Logos de marcas y aliados
+│   │   │   └── Productos/           <-- Fotos del catálogo o servicios
+│   │   └── video/                   <-- Archivos de video locales (ej. Rico Pollo 50 años)
+│   │
+│   ├── js/                          <-- Archivos de lógica JavaScript para la interfaz
+│   └── style/                       <-- Archivos de hojas de estilo CSS (ej. style.css)
 │
-├── index.html                  # Página principal
-└── README.md                   # Documentación del proyecto
+├── index.html                       <-- Página web principal (Inicio - Avance 1)
+├── server.js                        <-- Servidor Backend básico configurado con Express
+├── package.json                     <-- Configuración y dependencias del proyecto Node.js
+├── package-lock.json                <-- Control de versiones de los paquetes de Node
+└── README.md                        <-- Documentación oficial del repositorio
