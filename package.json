@@ -1,0 +1,25 @@
+{
+  "name": "empresa-rico-distributor",
+  "version": "1.0.0",
+  "description": "Bienvenido al repositorio oficial del proyecto web para **RICO**. Esta aplicación web está diseñada para ofrecer una interfaz moderna, intuitiva y rápida, optimizando la gestión y visualización de productos y servicios de la empresa.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GabriellMz/Empresa-Rico-Distributor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GabriellMz/Empresa-Rico-Distributor/issues"
+  },
+  "homepage": "https://github.com/GabriellMz/Empresa-Rico-Distributor#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
