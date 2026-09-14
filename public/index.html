@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +9,69 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
     <!-- AQUÍ TRABAJA EL INTEGRANTE 3 (Diseño UI/UX) -->
     <!-- Debe crear este archivo y darle los colores de Rico Pollo -->
     <link rel="stylesheet" href="style/style.css">
-    
+
     <style>
         /* Estilos rápidos de base (El Integrante 3 los debe pasar a style.css) */
-        .carousel-item img { height: 500px; object-fit: cover; filter: brightness(0.7); }
-        .logo-utp { max-width: 150px; background: white; padding: 5px; border-radius: 5px; }
-        .partner-logo { max-width: 90px; filter: grayscale(100%); margin: 10px; transition: 0.3s; }
-        .partner-logo:hover { filter: grayscale(0%); }
-        .product-img { height: 200px; object-fit: cover; }
+        .carousel-item img {
+            height: 640px;
+            object-fit: cover;
+            object-position: center top;
+            filter: brightness(0.9);
+        }
+
+        @media (max-width: 1200px) {
+            .carousel-item img {
+                height: 540px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .carousel-item img {
+                height: 440px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carousel-item img {
+                height: 280px;
+            }
+        }
+
+        .logo-utp {
+            max-width: 150px;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .partner-logo {
+            height: 65px;
+            max-width: 130px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            margin: 10px 15px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.08);
+        }
+
+        .product-img {
+            height: 200px;
+            object-fit: contain;
+            padding: 12px;
+            background-color: #fff;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- ==========================================
@@ -29,16 +79,16 @@
          ========================================== -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <!-- Logo usando tu ruta real -->
-                <img src="media/media-logos/Icono.png" alt="Logo RICO" width="40" height="40" class="d-inline-block align-text-top me-2 rounded-circle">
-                <strong>RICO</strong>
+            <a class="navbar-brand d-flex align-items-center py-1" href="#">
+                <!-- Logo oficial blanco sobre fondo rojo -->
+                <img src="./assets/img/Logo Rico/logo oficial blanco - fondo transparente.png" alt="Logo RICO" height="42"
+                    class="d-inline-block">
             </a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
@@ -47,11 +97,13 @@
                     <li class="nav-item"><a class="nav-link" href="#anuncios">Anuncios</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
                 </ul>
-                
+
                 <!-- Interfaz de Login y Registro -->
                 <div class="d-flex gap-2">
-                    <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                    <button class="btn btn-warning fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#registroModal">Registro</button>
+                    <button class="btn btn-outline-light" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Login</button>
+                    <button class="btn btn-warning fw-bold text-dark" data-bs-toggle="modal"
+                        data-bs-target="#registroModal">Registro</button>
                 </div>
             </div>
         </div>
@@ -68,17 +120,14 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="media/media-banners/carrus_2.jpg" class="d-block w-100" alt="Banner 1">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2 class="display-4 fw-bold text-white">Tradición y Calidad</h2>
-                    <p class="lead">Más de 50 años en la mesa de las familias peruanas.</p>
-                </div>
+                <img src="./assets/img/Imagenes Carrusel/carrusel1.png" class="d-block w-100" alt="Banner 1">
+                <!-- Se retiró el texto superpuesto para no obstruir el sándwich ni el diseño propio de la imagen publicitaria -->
             </div>
             <div class="carousel-item">
-                <img src="media/media-banners/carrus_3.jpg" class="d-block w-100" alt="Banner 2">
+                <img src="./assets/img/Imagenes Carrusel/carrusel2.jpg" class="d-block w-100" alt="Banner 2">
             </div>
             <div class="carousel-item">
-                <img src="media/media-banners/img2.jpg" class="d-block w-100" alt="Banner 3">
+                <img src="./assets/img/Imagenes Carrusel/carrusel3.jpg" class="d-block w-100" alt="Banner 3">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carruselRico" data-bs-slide="prev">
@@ -97,15 +146,23 @@
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <h2 class="text-danger fw-bold border-bottom border-danger pb-2">Nuestra Historia</h2>
                 <p class="text-justify" style="line-height: 1.8;">
-                    En <strong>RICO</strong>, nos enorgullece ser parte de la tradición gastronómica del país por más de 50 años. Comenzamos con un pequeño sueño familiar y hoy somos líderes indiscutibles en la distribución de productos avícolas y cárnicos de la más alta calidad. Nuestra misión es llevar a tu mesa alimentos frescos, nutritivos y deliciosos, garantizando siempre los estándares más rigurosos de higiene y bioseguridad en cada etapa de nuestro proceso productivo.<br><br>
-                    Trabajamos de la mano con criadores locales, impulsando el desarrollo sostenible y el comercio justo. Nuestro compromiso no solo es con el sabor, sino también con el bienestar de tu familia. Cada corte, cada producto que lleva nuestro sello, representa años de innovación, esfuerzo y dedicación. Porque sabemos que la buena comida une a las personas, en RICO trabajamos día a día para que nunca falte calidad y cariño en tus mejores momentos.
+                    En <strong>RICO</strong>, nos enorgullece ser parte de la tradición gastronómica del país por más de
+                    50 años. Comenzamos con un pequeño sueño familiar y hoy somos líderes indiscutibles en la
+                    distribución de productos avícolas y cárnicos de la más alta calidad. Nuestra misión es llevar a tu
+                    mesa alimentos frescos, nutritivos y deliciosos, garantizando siempre los estándares más rigurosos
+                    de higiene y bioseguridad en cada etapa de nuestro proceso productivo.<br><br>
+                    Trabajamos de la mano con criadores locales, impulsando el desarrollo sostenible y el comercio
+                    justo. Nuestro compromiso no solo es con el sabor, sino también con el bienestar de tu familia. Cada
+                    corte, cada producto que lleva nuestro sello, representa años de innovación, esfuerzo y dedicación.
+                    Porque sabemos que la buena comida une a las personas, en RICO trabajamos día a día para que nunca
+                    falte calidad y cariño en tus mejores momentos.
                 </p>
             </div>
             <div class="col-lg-6 text-center">
                 <!-- Video usando tu ruta real -->
                 <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
                     <video controls poster="media/media-banners/img5.avif">
-                        <source src="Videos/Rico Pollo 50 a os (1).mp4" type="video/mp4">
+                        <source src="./assets/video/Rico Pollo 50 años.mp4" type="video/mp4">
                         Tu navegador no soporta la etiqueta de video.
                     </video>
                 </div>
@@ -120,69 +177,68 @@
         <div class="container">
             <h2 class="text-center text-danger fw-bold mb-5">Nuestros Productos</h2>
             <div class="row g-4">
-                <!-- Tarjeta 1 -->
+                <!-- Tarjeta 1: Pollo -->
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="media/media-img/us-img1.jpg" class="card-img-top product-img" alt="Producto 1">
+                        <img src="./assets/img/Productos/Pollo.png" class="card-img-top product-img" alt="Pollo Fresco">
                         <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Pollo Entero Fresco</h5>
-                            <p class="card-text text-muted">Ideal para el almuerzo familiar, criado con los mejores estándares.</p>
+                            <h5 class="card-title fw-bold">Pollo Fresco</h5>
+                            <p class="card-text text-muted">Variedad de cortes y pollo entero de la más alta calidad y frescura.</p>
                             <button class="btn btn-outline-danger">Ver Detalles</button>
                         </div>
                     </div>
                 </div>
-                <!-- Tarjeta 2 -->
+                <!-- Tarjeta 2: Cerdo -->
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="media/media-img/m&v.jpg" class="card-img-top product-img" alt="Producto 2">
+                        <img src="./assets/img/Productos/Cerdo.png" class="card-img-top product-img" alt="Cortes de Cerdo">
                         <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Pechuga Especial</h5>
-                            <p class="card-text text-muted">Cortes seleccionados, perfectos para dietas saludables y a la plancha.</p>
+                            <h5 class="card-title fw-bold">Cortes de Cerdo</h5>
+                            <p class="card-text text-muted">Chuletas, lomo y costillas seleccionadas, tiernas y llenas de sabor.</p>
                             <button class="btn btn-outline-danger">Ver Detalles</button>
                         </div>
                     </div>
                 </div>
-                <!-- Tarjeta 3 -->
+                <!-- Tarjeta 3: Embutidos -->
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="media/media-img/descripcion.jpg" class="card-img-top product-img" alt="Producto 3">
+                        <img src="./assets/img/Productos/Embutidos.png" class="card-img-top product-img" alt="Embutidos Selectos">
                         <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Alitas Premium</h5>
-                            <p class="card-text text-muted">La mejor opción para tus parrillas y piqueos de fin de semana.</p>
+                            <h5 class="card-title fw-bold">Embutidos Selectos</h5>
+                            <p class="card-text text-muted">Jamonadas, salchichas y chorizos ideales para tus desayunos y parrillas.</p>
                             <button class="btn btn-outline-danger">Ver Detalles</button>
                         </div>
                     </div>
                 </div>
-                <!-- Tarjeta 4 -->
+                <!-- Tarjeta 4: Huevos -->
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="media/media-img/obejtivos.jpg" class="card-img-top product-img" alt="Producto 4">
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Pierna con Encuentro</h5>
-                            <p class="card-text text-muted">Jugosas y con la proporción perfecta de carne para tus guisos.</p>
-                            <button class="btn btn-outline-danger">Ver Detalles</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tarjeta 5 -->
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-0">
-                        <!-- Usando una imagen genérica del zip para rellenar -->
-                        <img src="media/media-banners/banner_men1.jpg" class="card-img-top product-img" alt="Producto 5">
+                        <img src="./assets/img/Productos/Huevos.png" class="card-img-top product-img" alt="Huevos de Corral">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Huevos de Corral</h5>
-                            <p class="card-text text-muted">Frescos, nutritivos y con la yema más provocativa.</p>
+                            <p class="card-text text-muted">Frescos, nutritivos y seleccionados bajo rigurosos controles de calidad.</p>
                             <button class="btn btn-outline-danger">Ver Detalles</button>
                         </div>
                     </div>
                 </div>
-                <!-- Tarjeta 6 -->
+                <!-- Tarjeta 5: Preparados -->
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="media/media-banners/banner_women1.jpg" class="card-img-top product-img" alt="Producto 6">
+                        <img src="./assets/img/Productos/Preparados.png" class="card-img-top product-img" alt="Productos Preparados">
                         <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Productos Pre-cocidos</h5>
-                            <p class="card-text text-muted">Nuggets y milanesas listas para freír y disfrutar al instante.</p>
+                            <h5 class="card-title fw-bold">Productos Preparados</h5>
+                            <p class="card-text text-muted">Milanesas, nuggets y apanados listos para cocinar de forma rápida y deliciosa.</p>
+                            <button class="btn btn-outline-danger">Ver Detalles</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 6: Aceite -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="./assets/img/Productos/Aceite.png" class="card-img-top product-img" alt="Aceite Vegetal">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">Aceite Vegetal</h5>
+                            <p class="card-text text-muted">Aceite 100% puro y saludable, ideal para realzar el sabor de todas tus comidas.</p>
                             <button class="btn btn-outline-danger">Ver Detalles</button>
                         </div>
                     </div>
@@ -199,20 +255,24 @@
             <div class="col-md-6 mb-4 mb-md-0">
                 <h3 class="mb-4 text-danger fw-bold">Nuestros Clientes</h3>
                 <div class="card border-0 bg-light p-4 shadow-sm">
-                    <p><strong>Cadenas de Supermercados:</strong> Proveemos abastecimiento diario a las tiendas más grandes del país.</p>
-                    <p><strong>Sector HORECA:</strong> Los mejores hoteles, restaurantes y caterings confían en la frescura de nuestros cortes.</p>
-                    <p><strong>Público General:</strong> Miles de familias peruanas que nos eligen en mercados y bodegas de confianza.</p>
+                    <p><strong>Cadenas de Supermercados:</strong> Proveemos abastecimiento diario a las tiendas más
+                        grandes del país.</p>
+                    <p><strong>Sector HORECA:</strong> Los mejores hoteles, restaurantes y caterings confían en la
+                        frescura de nuestros cortes.</p>
+                    <p><strong>Público General:</strong> Miles de familias peruanas que nos eligen en mercados y bodegas
+                        de confianza.</p>
                 </div>
             </div>
-            
+
             <div class="col-md-6 text-center">
                 <h3 class="mb-4 text-danger fw-bold">Aliados Estratégicos</h3>
-                <div class="d-flex flex-wrap justify-content-center align-items-center bg-light p-4 rounded shadow-sm gap-3">
+                <div
+                    class="d-flex flex-wrap justify-content-center align-items-center bg-light p-4 rounded shadow-sm gap-3">
                     <!-- Logos de empresas aliadas que tienes en el zip -->
-                    <img src="media/media-logos/elLogo.webp" alt="Aliado 1" class="partner-logo">
-                    <img src="media/media-logos/gapLogo.webp" alt="Aliado 2" class="partner-logo">
-                    <img src="media/media-logos/hm-symbol-logo.webp" alt="Aliado 3" class="partner-logo">
-                    <img src="media/media-logos/tmLogo.webp" alt="Aliado 4" class="partner-logo">
+                    <img src="./assets/img/Aliados/Candy.png" alt="Aliado 1" class="partner-logo">
+                    <img src="./assets/img/Aliados/Metro.png" alt="Aliado 2" class="partner-logo">
+                    <img src="./assets/img/Aliados/Repsol.jpg" alt="Aliado 3" class="partner-logo">
+                    <img src="./assets/img/Aliados/sedapar.png" alt="Aliado 4" class="partner-logo">
                 </div>
             </div>
         </div>
@@ -224,7 +284,7 @@
     <footer id="contacto" class="bg-dark text-white pt-5 pb-3 mt-4">
         <div class="container">
             <div class="row text-center text-md-start">
-                
+
                 <div class="col-md-4 mb-4">
                     <h5 class="text-warning fw-bold">Síguenos en Redes</h5>
                     <div class="fs-3 mt-3">
@@ -239,20 +299,24 @@
                     <h5 class="text-warning fw-bold">Contacto Comercial</h5>
                     <ul class="list-unstyled mt-3 text-light">
                         <!-- AQUÍ EL INTEGRANTE 2 PONE LOS DATOS REALES DE LA ENTREVISTA -->
-                        <li class="mb-2"><i class="bi bi-person-fill text-danger me-2"></i> <strong>Nombre del Entrevistado</strong></li>
-                        <li class="mb-2"><i class="bi bi-briefcase-fill text-danger me-2"></i> Cargo (Ej. Gerente de Ventas)</li>
-                        <li class="mb-2"><i class="bi bi-envelope-fill text-danger me-2"></i> correo.real@ricopollo.com</li>
+                        <li class="mb-2"><i class="bi bi-person-fill text-danger me-2"></i> <strong>Nombre del
+                                Entrevistado</strong></li>
+                        <li class="mb-2"><i class="bi bi-briefcase-fill text-danger me-2"></i> Cargo (Ej. Gerente de
+                            Ventas)</li>
+                        <li class="mb-2"><i class="bi bi-envelope-fill text-danger me-2"></i> correo.real@ricopollo.com
+                        </li>
                         <li><i class="bi bi-telephone-fill text-danger me-2"></i> +51 987 654 321</li>
                     </ul>
                 </div>
 
-                <div class="col-md-4 mb-4 d-flex flex-column align-items-center align-items-md-end justify-content-center">
+                <div
+                    class="col-md-4 mb-4 d-flex flex-column align-items-center align-items-md-end justify-content-center">
                     <p class="mb-2 text-light small fw-bold">Proyecto desarrollado en:</p>
                     <!-- LOGO UTP DESDE TU ZIP -->
-                    <img src="media/media-logos/logo-utp-3.jpg" alt="Logo UTP" class="logo-utp shadow">
+                    <img src="./assets/img/Logo UTP/logoUTP.png" alt="Logo UTP" class="logo-utp shadow">
                 </div>
             </div>
-            
+
             <div class="text-center mt-4 text-secondary border-top border-secondary pt-3">
                 <small>&copy; 2026 RICO. Todos los derechos reservados. Proyecto Académico.</small>
             </div>
@@ -264,61 +328,64 @@
          (Modales de Login y Registro)
          ========================================== -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title fw-bold"><i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body p-4">
-            <form>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Correo Electrónico</label>
-                    <input type="email" class="form-control" placeholder="usuario@correo.com">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Contraseña</label>
-                    <input type="password" class="form-control" placeholder="******">
+                <div class="modal-body p-4">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Correo Electrónico</label>
+                            <input type="email" class="form-control" placeholder="usuario@correo.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Contraseña</label>
+                            <input type="password" class="form-control" placeholder="******">
+                        </div>
+                        <button type="button" class="btn btn-danger w-100 fw-bold mt-2">Ingresar al Sistema</button>
+                    </form>
                 </div>
-                <button type="button" class="btn btn-danger w-100 fw-bold mt-2">Ingresar al Sistema</button>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="modal fade" id="registroModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header bg-warning text-dark">
-            <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Crear Cuenta Nueva</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body p-4">
-            <form>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Nombre Completo</label>
-                    <input type="text" class="form-control" placeholder="Ej. Juan Pérez">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Crear Cuenta Nueva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Correo Electrónico</label>
-                    <input type="email" class="form-control" placeholder="usuario@correo.com">
+                <div class="modal-body p-4">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre Completo</label>
+                            <input type="text" class="form-control" placeholder="Ej. Juan Pérez">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Correo Electrónico</label>
+                            <input type="email" class="form-control" placeholder="usuario@correo.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Crear Contraseña</label>
+                            <input type="password" class="form-control" placeholder="******">
+                        </div>
+                        <button type="button" class="btn btn-warning w-100 fw-bold mt-2 text-dark">Registrarme
+                            Ahora</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Crear Contraseña</label>
-                    <input type="password" class="form-control" placeholder="******">
-                </div>
-                <button type="button" class="btn btn-warning w-100 fw-bold mt-2 text-dark">Registrarme Ahora</button>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- AQUÍ TRABAJA EL INTEGRANTE 3 (JS Personalizado) -->
     <script src="js/main.js"></script>
 </body>
+
 </html>
