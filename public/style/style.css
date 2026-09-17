@@ -1,10 +1,168 @@
-/* Estilos de RICO Pollo */
+/* VARIABLES GLOBALES */
+:root {
+    --color-primary: #dc3545;
+    --color-secondary: #ffc107;
+    --color-dark: #212529;
+    --color-light: #f8f9fa;
+    --color-white: #ffffff;
+    --color-gray: #6c757d;
+
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    --transition: 0.3s ease;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-dark);
+    background-color: var(--color-white);
+}
+
+img {
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
+
+.titulo-seccion {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.texto-justificado {
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.text-rico {
+    color: var(--color-primary);
+}
+
+.bg-rico {
+    background-color: var(--color-primary);
+}
+
+.borde-redondeado {
+    border-radius: var(--radius-md);
+}
+
+.sombra-suave {
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar {
+    transition: box-shadow var(--transition);
+}
+
+.navbar-brand img {
+    object-fit: contain;
+}
+
+.navbar .nav-link {
+    transition: opacity var(--transition);
+}
+
+.navbar .nav-link:hover {
+    opacity: 0.8;
+}
 .carousel-item img {
     height: 640px;
     object-fit: cover;
     object-position: center top;
     filter: brightness(0.9);
 }
+
+.texto-historia {
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.product-img {
+    height: 200px;
+    object-fit: contain;
+    padding: 12px;
+    background-color: var(--color-white);
+}
+
+.card {
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.partner-logo {
+    height: 65px;
+    max-width: 130px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    margin: 10px 15px;
+    border-radius: var(--radius-sm);
+
+    transition:
+        transform var(--transition),
+        filter var(--transition);
+}
+
+.partner-logo:hover {
+    filter: grayscale(0%);
+    transform: scale(1.08);
+}
+
+.logo-utp {
+    max-width: 150px;
+    background-color: var(--color-white);
+    padding: 5px;
+    border-radius: var(--radius-sm);
+}
+
+.btn {
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.modal-content {
+    border: none;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+footer a {
+    transition: opacity var(--transition);
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
+
 
 @media (max-width: 1200px) {
     .carousel-item img {
@@ -18,37 +176,27 @@
     }
 }
 
+@media (max-width: 768px) {
+    .product-img {
+        height: 180px;
+    }
+
+    .partner-logo {
+        height: 55px;
+        max-width: 110px;
+    }
+}
+
 @media (max-width: 576px) {
     .carousel-item img {
         height: 280px;
     }
-}
 
-.logo-utp {
-    max-width: 150px;
-    background: white;
-    padding: 5px;
-    border-radius: 5px;
-}
+    .product-img {
+        height: 160px;
+    }
 
-.partner-logo {
-    height: 65px;
-    max-width: 130px;
-    object-fit: contain;
-    filter: grayscale(100%);
-    margin: 10px 15px;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    border-radius: 6px;
-}
-
-.partner-logo:hover {
-    filter: grayscale(0%);
-    transform: scale(1.08);
-}
-
-.product-img {
-    height: 200px;
-    object-fit: contain;
-    padding: 12px;
-    background-color: #fff;
+    .logo-utp {
+        max-width: 120px;
+    }
 }
