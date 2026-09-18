@@ -14,7 +14,7 @@
     --transition: 0.3s ease;
 
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 html {
@@ -68,6 +68,7 @@ h6 {
     box-shadow: var(--shadow-sm);
 }
 
+/* NAVBAR */
 .navbar {
     transition: box-shadow var(--transition);
 }
@@ -83,6 +84,8 @@ h6 {
 .navbar .nav-link:hover {
     opacity: 0.8;
 }
+
+/* CARRUSEL DE BANNERS */
 .carousel-item img {
     height: 640px;
     object-fit: cover;
@@ -90,6 +93,11 @@ h6 {
     filter: brightness(0.9);
 }
 
+.carousel-fade .carousel-item {
+    transition: opacity 0.6s ease-in-out !important;
+}
+
+/* SECCIÓN LA EMPRESA & VIDEO */
 .section-kicker {
     margin: 0;
     color: var(--color-primary);
@@ -120,6 +128,7 @@ h6 {
     border: 1px solid #e5e5e5;
     border-left: 3px solid var(--color-primary);
     background-color: var(--color-white);
+    border-radius: var(--radius-sm);
 }
 
 .purpose-block h3 {
@@ -146,6 +155,22 @@ h6 {
     object-fit: cover;
 }
 
+/* BOTÓN DE VOLUMEN FLOTANTE */
+#btnVolumen {
+    width: 46px;
+    height: 46px;
+    cursor: pointer;
+    background-color: rgba(33, 37, 41, 0.75);
+    z-index: 10;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+#btnVolumen:hover {
+    transform: scale(1.12);
+    background-color: var(--color-primary) !important;
+}
+
+/* PRODUCTOS Y EFECTO HOVER ELEVADO */
 .products-section .container,
 .clients-section,
 .partners-section .container {
@@ -155,80 +180,73 @@ h6 {
 .product-card {
     display: flex;
     flex-direction: column;
-    min-height: 270px;
     overflow: hidden;
-    border: 1px solid #e6e6e6;
+    border-radius: var(--radius-md) !important;
     background-color: var(--color-white);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    transition: transform var(--transition), box-shadow var(--transition);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s ease;
 }
 
+/* Elevación suave de las tarjetas */
 .product-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-sm);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md) !important;
 }
 
 .product-img {
     width: 100%;
-    height: 210px;
+    height: 200px;
     object-fit: contain;
-    padding: 1rem;
+    padding: 16px;
     background-color: var(--color-white);
+    transition: transform 0.3s ease;
 }
 
-.product-card-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 58px;
-    padding: 0.75rem 1rem;
-    border-top: 1px solid #f0f0f0;
-    text-align: center;
-}
-
-.product-card-body h3 {
-    margin: 0;
-    color: var(--color-dark);
-    font-size: 1rem;
-    font-weight: 700;
+.product-card:hover .product-img {
+    transform: scale(1.05);
 }
 
 .section-intro {
     color: var(--color-gray);
 }
 
+/* CLIENTES Y ALIADOS */
 .logo-space {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 125px;
+    min-height: 115px;
     padding: 1rem;
     border: 1px solid #e5e5e5;
     background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.client-logo,
-.partner-logo {
+.logo-space:hover {
+    transform: translateY(-3px);
+    border-color: #dcdcdc;
+}
+
+.client-logo {
     display: block;
     width: 100%;
-    height: 78px;
-    max-width: 160px;
+    height: 72px;
+    max-width: 150px;
     object-fit: contain;
 }
 
-.card {
-    transition:
-        transform var(--transition),
-        box-shadow var(--transition);
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
-
 .partner-logo {
-    filter: none;
+    height: 65px;
+    max-width: 130px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo-space:hover .partner-logo {
+    filter: grayscale(0%);
+    transform: scale(1.08);
 }
 
 .logo-utp {
@@ -238,10 +256,9 @@ h6 {
     border-radius: var(--radius-sm);
 }
 
+/* BOTONES Y MODALES */
 .btn {
-    transition:
-        transform var(--transition),
-        box-shadow var(--transition);
+    transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .btn:hover {
@@ -255,6 +272,7 @@ h6 {
     box-shadow: var(--shadow-md);
 }
 
+/* FOOTER */
 footer a {
     transition: opacity var(--transition);
 }
@@ -263,7 +281,7 @@ footer a:hover {
     opacity: 0.8;
 }
 
-
+/* MEDIA QUERIES RESPONSIVE */
 @media (max-width: 1200px) {
     .carousel-item img {
         height: 540px;
@@ -281,18 +299,14 @@ footer a:hover {
         height: 175px;
     }
 
-    .product-card {
-        min-height: 235px;
-    }
-
     .logo-space {
-        min-height: 110px;
+        min-height: 100px;
     }
 
     .client-logo,
     .partner-logo {
-        height: 62px;
-        max-width: 130px;
+        height: 60px;
+        max-width: 120px;
     }
 }
 
@@ -302,15 +316,7 @@ footer a:hover {
     }
 
     .product-img {
-        height: 160px;
-    }
-
-    .product-card {
-        min-height: 220px;
-    }
-
-    .product-card-body h3 {
-        font-size: 0.92rem;
+        height: 150px;
     }
 
     .logo-utp {
