@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Estilos Externos -->
+    <!-- Hoja de Estilos Externa -->
     <link rel="stylesheet" href="style/style.css">
 </head>
 
@@ -72,7 +72,7 @@
     </header>
 
     <!-- ==========================================
-         SECCIÓN EMPRESA Y VIDEO (Autoplay silenciado con botón único)
+         SECCIÓN EMPRESA Y VIDEO
          ========================================== -->
     <section id="empresa" class="history-section py-5 mt-4 mx-auto">
         <div class="container">
@@ -118,13 +118,13 @@
     </section>
 
     <!-- ==========================================
-         CATÁLOGO DE PRODUCTOS (Centrado parejo y estructurado)
+         CATÁLOGO DE PRODUCTOS
          ========================================== -->
     <section id="productos" class="products-section bg-light py-5">
         <div class="container">
             <h2 class="section-title text-center mb-4">Nuestros Productos</h2>
             <div class="row g-4 justify-content-center">
-                <!-- Pollo -->
+                <!-- 1. Pollo Fresco -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100 shadow-sm border-0 product-card text-center">
                         <img src="./assets/img/Productos/Pollo.png" class="card-img-top product-img" alt="Pollo Fresco">
@@ -134,12 +134,15 @@
                                 <p class="card-text text-muted small mb-3">Variedad de cortes y pollo entero de la más alta calidad y frescura.</p>
                             </div>
                             <div>
-                                <button class="btn btn-outline-danger btn-sm px-4">Ver Detalles</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-toggle="modal" data-bs-target="#modalPollo">
+                                    Ver Detalles
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Cerdo -->
+
+                <!-- 2. Cortes de Cerdo -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100 shadow-sm border-0 product-card text-center">
                         <img src="./assets/img/Productos/Cerdo.png" class="card-img-top product-img" alt="Cortes de Cerdo">
@@ -149,12 +152,15 @@
                                 <p class="card-text text-muted small mb-3">Chuletas, lomo y costillas seleccionadas, tiernas y llenas de sabor.</p>
                             </div>
                             <div>
-                                <button class="btn btn-outline-danger btn-sm px-4">Ver Detalles</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-toggle="modal" data-bs-target="#modalCerdo">
+                                    Ver Detalles
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Embutidos -->
+
+                <!-- 3. Embutidos Selectos -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100 shadow-sm border-0 product-card text-center">
                         <img src="./assets/img/Productos/Embutidos.png" class="card-img-top product-img" alt="Embutidos Selectos">
@@ -164,12 +170,15 @@
                                 <p class="card-text text-muted small mb-3">Jamonadas, salchichas y chorizos ideales para tus desayunos y parrillas.</p>
                             </div>
                             <div>
-                                <button class="btn btn-outline-danger btn-sm px-4">Ver Detalles</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-toggle="modal" data-bs-target="#modalEmbutidos">
+                                    Ver Detalles
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Huevos -->
+
+                <!-- 4. Huevos de Corral -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100 shadow-sm border-0 product-card text-center">
                         <img src="./assets/img/Productos/Huevos.png" class="card-img-top product-img" alt="Huevos de Corral">
@@ -179,12 +188,15 @@
                                 <p class="card-text text-muted small mb-3">Frescos, nutritivos y seleccionados bajo rigurosos controles de calidad.</p>
                             </div>
                             <div>
-                                <button class="btn btn-outline-danger btn-sm px-4">Ver Detalles</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-toggle="modal" data-bs-target="#modalHuevos">
+                                    Ver Detalles
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Preparados -->
+
+                <!-- 5. Productos Preparados -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100 shadow-sm border-0 product-card text-center">
                         <img src="./assets/img/Productos/Preparados.png" class="card-img-top product-img" alt="Productos Preparados">
@@ -194,12 +206,15 @@
                                 <p class="card-text text-muted small mb-3">Milanesas, nuggets y apanados listos para cocinar de forma rápida y deliciosa.</p>
                             </div>
                             <div>
-                                <button class="btn btn-outline-danger btn-sm px-4">Ver Detalles</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-toggle="modal" data-bs-target="#modalPreparados">
+                                    Ver Detalles
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Aceite -->
+
+                <!-- 6. Aceite Vegetal -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100 shadow-sm border-0 product-card text-center">
                         <img src="./assets/img/Productos/Aceite.png" class="card-img-top product-img" alt="Aceite Vegetal">
@@ -209,7 +224,9 @@
                                 <p class="card-text text-muted small mb-3">Aceite 100% puro y saludable, ideal para realzar el sabor de todas tus comidas.</p>
                             </div>
                             <div>
-                                <button class="btn btn-outline-danger btn-sm px-4">Ver Detalles</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-toggle="modal" data-bs-target="#modalAceite">
+                                    Ver Detalles
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -219,7 +236,7 @@
     </section>
 
     <!-- ==========================================
-         CLIENTES (Centrado absoluto con enlaces oficiales)
+         CLIENTES (Enlaces oficiales directos)
          ========================================== -->
     <section id="anuncios" class="clients-section py-5 mx-auto">
         <div class="container">
@@ -275,7 +292,7 @@
     </section>
 
     <!-- ==========================================
-         ALIADOS ESTRATÉGICOS (Centrado parejo con enlaces)
+         ALIADOS ESTRATÉGICOS
          ========================================== -->
     <section id="aliados" class="partners-section bg-light py-5 mx-auto">
         <div class="container">
@@ -374,6 +391,183 @@
     </footer>
 
     <!-- ==========================================
+         MODALES DE DETALLES DE PRODUCTOS (INFO REAL)
+         ========================================== -->
+    <!-- 1. Modal Pollo Fresco -->
+    <div class="modal fade" id="modalPollo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Pollo Fresco RICO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-5 text-center">
+                            <img src="./assets/img/Productos/Pollo.png" class="img-fluid rounded p-2" alt="Pollo Fresco RICO" style="max-height: 220px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="text-danger fw-bold text-uppercase">Crianza de Alta Calidad</h6>
+                            <p class="small text-muted mb-3">Aves criadas bajo rigurosos protocolos de bioseguridad en granjas tecnificadas. Alimentación a base de maíz y soya 100% natural, garantizando una carne tierna, de piel limpia y óptima textura.</p>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>Presentaciones:</strong> Entero con/sin menudencia, pechuga especial, pierna con encuentro, alas, filetes.</li>
+                                <li><strong>Certificación:</strong> Sistema HACCP y Buenas Prácticas de Manufactura (BPM).</li>
+                                <li><strong>Conservación:</strong> Refrigerado entre 0 °C y 4 °C. No romper la cadena de frío.</li>
+                            </ul>
+                            <div class="badge bg-danger p-2">Distribución Diaria Garantizada</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Modal Cerdo -->
+    <div class="modal fade" id="modalCerdo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Cortes Selectos de Cerdo RICO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-5 text-center">
+                            <img src="./assets/img/Productos/Cerdo.png" class="img-fluid rounded p-2" alt="Cerdo RICO" style="max-height: 220px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="text-danger fw-bold text-uppercase">Carne Magra y Tierna</h6>
+                            <p class="small text-muted mb-3">Línea porcina de primera categoría con corte técnico estandarizado. Carne magra, baja en grasa dorsal y rica en proteínas, idónea para la cocina diaria y parrilladas gourmet.</p>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>Cortes Principales:</strong> Chuleta de lomo, panceta parrillera, costillas baby back, bondiola, brazuelo.</li>
+                                <li><strong>Control:</strong> Inspección veterinaria continua y cadena de frío ininterrumpida.</li>
+                                <li><strong>Conservación:</strong> Mantener a temperaturas ≤ 4 °C o congelado a -18 °C.</li>
+                            </ul>
+                            <div class="badge bg-danger p-2">Cortes Listos para Preparar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Modal Embutidos -->
+    <div class="modal fade" id="modalEmbutidos" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Embutidos Selectos RICO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-5 text-center">
+                            <img src="./assets/img/Productos/Embutidos.png" class="img-fluid rounded p-2" alt="Embutidos RICO" style="max-height: 220px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="text-danger fw-bold text-uppercase">Sabor Tradicional y Versatilidad</h6>
+                            <p class="small text-muted mb-3">Formulados a base de carne seleccionada de ave y porcino, condimentados con especias naturales para brindar aroma y sabor inconfundibles en loncheras, desayunos y reuniones.</p>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>Variedad:</strong> Jamonada especial, hot dog clásico de pollo, salchicha viena, jamón del país, chorizos parrilleros.</li>
+                                <li><strong>Envasado:</strong> Bolsas al vacío termoselladas para conservar jugosidad y frescura natural.</li>
+                                <li><strong>Conservación:</strong> Refrigeración de 2 °C a 6 °C. Consumir dentro de los días indicados tras abrir.</li>
+                            </ul>
+                            <div class="badge bg-danger p-2">Nutrición y Rapidez Familiar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Modal Huevos -->
+    <div class="modal fade" id="modalHuevos" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Huevos Frescos de Granja RICO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-5 text-center">
+                            <img src="./assets/img/Productos/Huevos.png" class="img-fluid rounded p-2" alt="Huevos RICO" style="max-height: 220px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="text-danger fw-bold text-uppercase">Frescura y Calidad Nutricional</h6>
+                            <p class="small text-muted mb-3">Huevos seleccionados de postura diaria, clasificados electrónicamente por peso y calibre. Cáscara resistente y limpia con yema consistente de intenso color y alto valor biológico.</p>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>Calibres:</strong> Extra, Especial y Primera.</li>
+                                <li><strong>Presentación:</strong> Empaques tipo estuche de 15 unidades y planchas comerciales de 30 unidades.</li>
+                                <li><strong>Aporte:</strong> Fuente clave de colina, proteínas de alto valor biológico, hierro y fósforo.</li>
+                            </ul>
+                            <div class="badge bg-danger p-2">Recolección Diaria Certificada</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Modal Preparados -->
+    <div class="modal fade" id="modalPreparados" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Línea Preparados y Apanados RICO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-5 text-center">
+                            <img src="./assets/img/Productos/Preparados.png" class="img-fluid rounded p-2" alt="Preparados RICO" style="max-height: 220px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="text-danger fw-bold text-uppercase">Cocina Fácil, Rápida y Deliciosa</h6>
+                            <p class="small text-muted mb-3">Productos elaborados con pechuga de pollo marinada y cobertura crocante. Congelados individualmente mediante tecnología IQF para conservar su sabor y propiedades intactas.</p>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>Opciones:</strong> Nuggets crocantes de pollo, milanesas apanadas, hamburguesas de carne/pollo y pop corn chicken.</li>
+                                <li><strong>Preparación:</strong> Listos para freidora de aire (180 °C por 10 min), horno o sartén sin necesidad de descongelar.</li>
+                                <li><strong>Conservación:</strong> Mantener a -18 °C en congelación.</li>
+                            </ul>
+                            <div class="badge bg-danger p-2">100% Pechuga de Pollo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Modal Aceite -->
+    <div class="modal fade" id="modalAceite" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Aceite Vegetal Comestible RICO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-5 text-center">
+                            <img src="./assets/img/Productos/Aceite.png" class="img-fluid rounded p-2" alt="Aceite RICO" style="max-height: 220px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="text-danger fw-bold text-uppercase">Rendimiento y Cuidado Familiar</h6>
+                            <p class="small text-muted mb-3">Aceite vegetal purificado mediante procesos de refinado, blanqueo y desodorizado. Su alto punto de humo permite frituras doradas y parejas sin impregnar olores ni sabores residuales.</p>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>Beneficios:</strong> 0% grasas trans, libre de colesterol por su origen vegetal.</li>
+                                <li><strong>Presentaciones:</strong> Botella ergonómica de 900 ml y galonera institucional de 5 Litros.</li>
+                                <li><strong>Uso recomendado:</strong> Fritura profunda, salteados, repostería y aderezos culinarios.</li>
+                            </ul>
+                            <div class="badge bg-danger p-2">Calidad y Resistencia Térmica</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
          MODALES DE AUTENTICACIÓN
          ========================================== -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
@@ -381,8 +575,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title fw-bold"><i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
                     <form>
@@ -431,6 +624,7 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <script src="js/main.js"></script>
 </body>
