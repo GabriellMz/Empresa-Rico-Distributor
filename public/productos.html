@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Productos | RICO ALIMENTOS</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/modal.css">
+    <link rel="stylesheet" href="style/productos.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center py-1" href="index.html">
+                <img
+                    src="assets/img/Logo Rico/logo oficial blanco - fondo transparente.png"
+                    alt="Logo RICO"
+                    height="42"
+                >
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Abrir menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#empresa">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page"
+                            href="productos.html">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#anuncios">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contacto">Contacto</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-light"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Login
+                    </button>
+                    <button class="btn btn-warning fw-bold text-dark"
+                        data-bs-toggle="modal" data-bs-target="#registroModal">
+                        Registro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="catalog-hero text-center">
+        <div class="container">
+            <p class="section-kicker mb-2">Calidad y confianza</p>
+            <h1 class="section-title mb-3">Nuestros Productos</h1>
+            <p class="catalog-intro mx-auto">
+                Descubre nuestra variedad de embutidos, carnes y productos
+                seleccionados para tu negocio y tu familia.
+            </p>
+        </div>
+    </header>
+
+    <main class="products-section py-5">
+        <div class="container">
+
+            <div class="catalog-search mb-4">
+                <label for="buscadorProductos" class="form-label fw-bold">
+                    Buscar productos
+                </label>
+
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-white">
+                        <i class="bi bi-search text-danger"></i>
+                    </span>
+                    <input
+                        type="search"
+                        class="form-control"
+                        id="buscadorProductos"
+                        placeholder="Busca por nombre, marca o categoría..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="d-flex justify-content-between flex-wrap gap-2 mt-3">
+                    <span id="contadorProductos" class="text-muted small"
+                        aria-live="polite">Cargando productos...</span>
+                    <button type="button" id="limpiarBusqueda"
+                        class="btn btn-sm btn-outline-danger">
+                        Limpiar búsqueda
+                    </button>
+                </div>
+            </div>
+
+            <div id="estadoProductos" class="catalog-status"
+                role="status" aria-live="polite">
+                Cargando catálogo...
+            </div>
+
+            <div id="listaProductos" class="row g-4"></div>
+
+        </div>
+    </main>
+
+<!-- ==========================================
+         VUELVE A TRABAJAR EL INTEGRANTE 2 (Footer)
+         ========================================== -->
+   
+    <footer id="contacto" class="footer-rico">
+
+    <div class="container">
+
+       
+        <div class="row gy-5">
+
+            <!-- ==============================
+                 COLUMNA 1 - MARCA
+                 ============================== -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="footer-brand">
+                    <h3 class="fw-bold text-white mb-3">
+                        RICO
+                        <span class="text-warning">.</span>
+                    </h3>
+                    <p class="text-white-50">
+                        Productos de calidad para llevar a tu mesa
+                        el mejor sabor. Frescura, confianza y
+                        compromiso con nuestros clientes.
+                    </p>
+                    <!-- Redes sociales -->
+
+                    <h6 class="text-warning fw-bold mt-4 mb-3">
+                        Síguenos en nuestras redes
+                    </h6>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="TikTok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                        <a href="#" aria-label="WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ==============================
+                 COLUMNA 2 - CONTACTO
+                 ============================== -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <h5 class="footer-title">
+                    Contacto Comercial
+                </h5>
+
+                <p class="text-white-50 small mb-4">
+                    ¿Tienes alguna consulta? Comunícate con
+                    nuestro equipo comercial.
+                </p>
+
+                <ul class="footer-contact list-unstyled">
+
+                    <li>
+                        <span class="contact-icon">
+                            <i class="bi bi-person-fill"></i>
+                        </span>
+
+                        <div>
+                            <small>Responsable</small>
+                            <strong>
+                                Manuel Angel Huarac Valle
+                            </strong>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="contact-icon">
+                            <i class="bi bi-briefcase-fill"></i>
+                        </span>
+
+                        <div>
+                            <small>Cargo</small>
+                            <strong>
+                                Representante Comercial
+                            </strong>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="contact-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </span>
+                        <div>
+                            <small>Correo electrónico</small>
+                            <strong>
+                                angell@ricogmail.com
+                            </strong>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="contact-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </span>
+                        <div>
+                            <small>Teléfono</small>
+                            <strong>
+                                +51 987 654 321
+                            </strong>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- ==============================
+                 COLUMNA 3 - UNIVERSIDAD
+                 ============================== -->
+
+            <div class="col-lg-4 col-md-12">
+                <div class="footer-universidad">
+                    <h5 class="footer-title">
+                        Proyecto Académico
+                    </h5>
+
+                    <p class="text-white-50 small mb-4">
+                        Proyecto desarrollado como parte de
+                        nuestra formación académica.
+                    </p>
+                    <div class="utp-box">
+
+                        <span class="text-white-50 small">
+                            Desarrollado en
+                        </span>
+                        <img
+                            src="assets/img/Logo UTP/logoUTP.png"
+                            alt="Logo Universidad Tecnológica del Perú"
+                            class="logo-utp">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--   SEPARADOR     -->
+
+        <hr class="footer-divider">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0 text-white-50 small">
+                    &copy; 2026
+                    <strong class="text-white">RICO</strong>.
+                    Todos los derechos reservados.
+                </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+
+                <span class="text-white-50 small">
+                    Proyecto Académico
+                </span>
+            </div>
+        </div>
+    </div>
+
+    </footer>
+
+    <!-- Los modales de Login y Registro se pueden reutilizar
+         desde tu index.html cuando conectes la autenticación. -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/productos.js"></script>
+</body>
+</html>
