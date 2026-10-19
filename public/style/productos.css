@@ -249,3 +249,125 @@
         transition: none;
     }
 }
+.producto-modal {
+    border: 0;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.producto-modal-imagen {
+    width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    background: #fff;
+}
+
+.boton-favorito {
+    min-width: 48px;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.boton-favorito:hover {
+    transform: scale(1.06);
+}
+.notificacion-carrito {
+    position: fixed;
+    top: 100px;
+    right: 24px;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    width: min(390px, calc(100vw - 32px));
+    padding: 18px;
+
+    background: #ffffff;
+    border-left: 5px solid #198754;
+    border-radius: 12px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.16);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(calc(100% + 30px));
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.35s ease,
+        visibility 0.35s ease;
+}
+
+.notificacion-carrito.mostrar {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.notificacion-carrito-icono {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    color: #ffffff;
+    background: #198754;
+    border-radius: 50%;
+
+    font-size: 24px;
+}
+
+.notificacion-carrito-contenido {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.notificacion-carrito-contenido strong {
+    color: #198754;
+    font-size: 15px;
+}
+
+.notificacion-carrito-contenido span {
+    color: #212529;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+.notificacion-carrito-contenido small {
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.notificacion-carrito-cerrar {
+    align-self: flex-start;
+    flex-shrink: 0;
+
+    border: none;
+    background: transparent;
+    color: #6c757d;
+
+    padding: 4px;
+    cursor: pointer;
+}
+
+.notificacion-carrito-cerrar:hover {
+    color: #dc3545;
+}
+
+@media (max-width: 576px) {
+    .notificacion-carrito {
+        top: 80px;
+        right: 12px;
+        width: calc(100vw - 24px);
+    }
+}
