@@ -186,7 +186,8 @@ formProducto.addEventListener('submit', async(e)=>{
         vencimiento_duracion : document.getElementById('inputVencimientoProducto').value.trim(),
         imagen: rutaImagen,
         descripcion: document.getElementById('inputDescripcionProducto').value.trim(),
-        id_admin: (typeof sesionAdmin !== 'undefined' && sesionAdmin?.id_admin) ? sesionAdmin.id_admin : 1
+        id_admin: (typeof sesionAdmin !== 'undefined' && sesionAdmin?.id_admin) ? sesionAdmin.id_admin : 1,
+        id_categoria: document.getElementById('selectCategoriaProducto') ? Number(document.getElementById('selectCategoriaProducto').value) : 1
     };
 
     let resultado = null;
@@ -229,6 +230,9 @@ tbody.addEventListener('click', async (e) => {
             document.getElementById('inputVencimientoProducto').value = producto.vencimiento_duracion || '';
             document.getElementById('inputImagenProducto').value = producto.imagen || '';
             document.getElementById('inputDescripcionProducto').value = producto.descripcion || '';
+            if (document.getElementById('selectCategoriaProducto')) {
+                document.getElementById('selectCategoriaProducto').value = producto.id_categoria || '1';
+            }
 
             const modalTitle = document.getElementById('modalProductoLabel');
             if (modalTitle) {
