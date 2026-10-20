@@ -20,6 +20,12 @@
   },
   "homepage": "https://github.com/GabriellMz/Empresa-Rico-Distributor#readme",
   "dependencies": {
+<<<<<<< Updated upstream
+=======
+    "@supabase/server": "^1.9.2",
+    "@supabase/supabase-js": "^2.117.2",
+    "cors": "^2.8.6",
+>>>>>>> Stashed changes
     "express": "^5.2.1"
   }
 }
