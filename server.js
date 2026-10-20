@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cors = require('cors');
+const multer = require('multer');
 const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
@@ -62,6 +64,78 @@ app.post('/api/productos', async (req, res) => {
 
     if (error) return res.status(500).json({ error: error.message });
     res.json({ exito: true, mensaje: 'Producto creado exitosamente', data });
+});
+
+app.put('/api/productos/:id', async (req, res) => {
+    const { id } = req.params;
+    const { nombre, descripcion, marca, precio, imagen, vencimiento_duracion } = req.body;
+
+    const { data, error } = await supabase
+        .from('producto')
+        .update({
+            nombre,
+            descripcion,
+            marca,
+            precio,
+            imagen,
+            vencimiento_duracion
+        })
+        .eq('id_producto', id);
+
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ exito: true, mensaje: 'Producto actualizado exitosamente', data });
+});
+
+app.delete('/api/productos/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const { data: producto } = await supabase
+        .from('producto')
+        .select('imagen')
+        .eq('id_producto', id)
+        .single();
+
+    const { error } = await supabase
+        .from('producto')
+        .delete()
+        .eq('id_producto', id);
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    if (producto && producto.imagen) {
+        const imagenesBase = ['Pollo.png', 'Cerdo.png', 'Embutidos.png', 'Huevos.png', 'Aceite.png', 'Preparados.png', 'Licores.png'];
+        const nombreArchivo = path.basename(producto.imagen);
+
+        if (!imagenesBase.includes(nombreArchivo)) {
+            const rutaFisica = path.join(__dirname, 'public', 'assets', 'img', 'Productos', nombreArchivo);
+            if (fs.existsSync(rutaFisica)) {
+                fs.unlink(rutaFisica, () => {});
+            }
+        }
+    }
+
+    res.json({ exito: true, mensaje: 'Producto eliminado exitosamente' });
+});
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, 'public', 'assets', 'img', 'Productos'));
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+        cb(null, uniqueName);
+    }
+});
+
+const upload = multer({ storage });
+
+app.post('/api/upload', upload.single('imagen'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ exito: false, mensaje: 'No se subió ningún archivo' });
+    }
+    const ruta = `./assets/img/Productos/${req.file.filename}`;
+    res.json({ exito: true, ruta });
 });
 
 async function poblarProductosBase() {
