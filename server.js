@@ -1,3 +1,4 @@
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -6,150 +7,273 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const port = 3000;
 
-
+// Conexión con Supabase
 const supabaseUrl = 'https://lhhtcdayfqtybczaloso.supabase.co';
 const supabaseKey = 'sb_publishable_yvAsHM24Bt2c7-dcaqyBLg_cS_GwtAC';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Configuración del servidor
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.static(path.join(__dirname, 'public')));
 
+// LOGIN DE ADMINISTRADOR
 app.post('/api/login', async (req, res) => {
-    const { usuario, clave } = req.body;
+    try {
+        const { usuario, clave } = req.body;
 
-    const { data, error } = await supabase
-        .from('administrador')
-        .select('*')
-        .eq('usuario', usuario)
-        .eq('clave', clave);
+        const { data, error } = await supabase
+            .from('administrador')
+            .select('*')
+            .eq('usuario', usuario)
+            .eq('clave', clave);
 
-    if (error) return res.status(500).json({ error: error.message });
-    
-    if (data.length > 0) {
-        res.json({ exito: true, mensaje: 'Login correcto', admin: data[0] });
-    } else {
-        res.status(401).json({ exito: false, mensaje: 'Usuario o clave incorrectos' });
-    }
-});
-
-app.get('/api/productos', async (req, res) => {
-    const { data, error } = await supabase
-        .from('producto')
-        .select('*')
-        .order('id_producto', { ascending: true });
-
-    if (error) return res.status(500).json({ error: error.message });
-    res.json(data);
-});
-
-app.post('/api/productos', async (req, res) => {
-    const { nombre, descripcion, marca, precio, imagen, vencimiento_duracion, id_admin } = req.body;
-
-    const { data, error } = await supabase
-        .from('producto')
-        .insert([
-            { 
-                nombre, 
-                descripcion, 
-                marca, 
-                precio, 
-                imagen, 
-                vencimiento_duracion, 
-                id_admin 
-            }
-        ]);
-
-    if (error) return res.status(500).json({ error: error.message });
-    res.json({ exito: true, mensaje: 'Producto creado exitosamente', data });
-});
-
-async function poblarProductosBase() {
-
-    const { data: productosExistentes, error: errorCheck } = await supabase
-        .from('producto')
-        .select('id_producto')
-        .limit(1);
-
-    if (errorCheck) {
-        console.log('⚠️ Error al verificar productos en Supabase. ¿Ya creaste las tablas con el SQL Editor?');
-        return;
-    }
-
-    if (productosExistentes.length === 0) {
-        console.log('⏳ La tabla productos está vacía. Insertando productos base automáticamente...');
-
-        const productosBase = [
-            {
-                nombre: 'Pollo Fresco',
-                descripcion: 'Variedad de cortes y pollo entero de la más alta calidad y frescura.',
-                marca: 'Rico Pollo',
-                precio: 18.50,
-                imagen: './assets/img/Productos/Pollo.png',
-                id_admin: 1
-            },
-            {
-                nombre: 'Cortes de Cerdo',
-                descripcion: 'Chuletas, lomo y costillas seleccionadas, tiernas y llenas de sabor.',
-                marca: 'Rico Pollo',
-                precio: 25.00,
-                imagen: './assets/img/Productos/Cerdo.png',
-                id_admin: 1
-            },
-            {
-                nombre: 'Embutidos Selectos',
-                descripcion: 'Jamonadas, salchichas y chorizos ideales para tus desayunos y parrillas.',
-                marca: 'Rico Pollo',
-                precio: 12.90,
-                imagen: './assets/img/Productos/Embutidos.png',
-                id_admin: 1
-            },
-            {
-                nombre: 'Huevos de Corral',
-                descripcion: 'Frescos, nutritivos y seleccionados bajo rigurosos controles de calidad.',
-                marca: 'Rico Pollo',
-                precio: 8.50,
-                imagen: './assets/img/Productos/Huevos.png',
-                id_admin: 1
-            },
-            {
-                nombre: 'Productos Preparados',
-                descripcion: 'Milanesas, nuggets y apanados listos para cocinar de forma rápida y deliciosa.',
-                marca: 'Rico Pollo',
-                precio: 22.00,
-                imagen: './assets/img/Productos/Preparados.png',
-                id_admin: 1
-            },
-            {
-                nombre: 'Aceite Vegetal',
-                descripcion: 'Aceite 100% puro y saludable, ideal para realzar el sabor de todas tus comidas.',
-                marca: 'Rico Pollo',
-                precio: 9.90,
-                imagen: './assets/img/Productos/Aceite.png',
-                id_admin: 1
-            }
-        ];
-
-        const { error: insertError } = await supabase
-            .from('producto')
-            .insert(productosBase);
-
-        if (insertError) {
-            console.log('❌ Error al insertar productos base:', insertError.message);
-        } else {
-            console.log('✅ 6 Productos base insertados correctamente en Supabase.');
+        if (error) {
+            return res.status(500).json({ error: error.message });
         }
-    } else {
-        console.log('📦 Los productos ya están cargados en Supabase. Listo para el CRUD.');
+
+        if (data.length > 0) {
+            return res.json({
+                exito: true,
+                mensaje: 'Login correcto',
+                admin: data[0]
+            });
+        }
+
+        res.status(401).json({
+            exito: false,
+            mensaje: 'Usuario o clave incorrectos'
+        });
+
+    } catch (error) {
+        console.error('Error en el login:', error);
+
+        res.status(500).json({
+            error: 'Error interno al iniciar sesión.'
+        });
+    }
+});
+
+// OBTENER Y BUSCAR PRODUCTOS
+app.get('/api/productos', async (req, res) => {
+    try {
+        const buscar = (req.query.buscar || '').trim();
+        const categoria = req.query.categoria;
+
+        let consulta = supabase
+            .from('producto')
+            .select('*')
+            .order('id_producto', { ascending: true });
+
+        // Buscar por nombre, descripción o marca
+        if (buscar) {
+            const texto = buscar.replace(/[,%()]/g, ' ').trim();
+
+            if (texto) {
+                consulta = consulta.or(
+                    `nombre.ilike.%${texto}%,descripcion.ilike.%${texto}%,marca.ilike.%${texto}%`
+                );
+            }
+        }
+
+        // Filtrar por categoría
+        if (categoria && categoria !== 'todos') {
+            const idCategoria = Number(categoria);
+
+            if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
+                return res.status(400).json({
+                    error: 'La categoría indicada no es válida.'
+                });
+            }
+
+            consulta = consulta.eq('id_categoria', idCategoria);
+        }
+
+        const { data, error } = await consulta;
+
+        if (error) {
+            console.error('Error al consultar productos:', error.message);
+
+            return res.status(500).json({
+                error: 'No se pudieron consultar los productos.'
+            });
+        }
+
+        res.json(data);
+
+    } catch (error) {
+        console.error('Error inesperado al consultar productos:', error);
+
+        res.status(500).json({
+            error: 'Ocurrió un error al consultar los productos.'
+        });
+    }
+});
+
+// REGISTRAR PRODUCTO
+app.post('/api/productos', async (req, res) => {
+    try {
+        const {
+            nombre,
+            descripcion,
+            marca,
+            precio,
+            imagen,
+            vencimiento_duracion,
+            id_admin,
+            id_categoria
+        } = req.body;
+
+        const { data, error } = await supabase
+            .from('producto')
+            .insert([{
+                nombre,
+                descripcion,
+                marca,
+                precio,
+                imagen,
+                vencimiento_duracion,
+                id_admin,
+                id_categoria
+            }])
+            .select();
+
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+
+        res.status(201).json({
+            exito: true,
+            mensaje: 'Producto creado exitosamente',
+            data
+        });
+
+    } catch (error) {
+        console.error('Error al registrar producto:', error);
+
+        res.status(500).json({
+            error: 'Ocurrió un error al registrar el producto.'
+        });
+    }
+});
+
+// CARGAR PRODUCTOS BASE SI LA TABLA ESTÁ VACÍA
+async function poblarProductosBase() {
+    try {
+        const { data: productosExistentes, error: errorCheck } =
+            await supabase
+                .from('producto')
+                .select('id_producto')
+                .limit(1);
+
+        if (errorCheck) {
+            console.error(
+                'Error al verificar productos en Supabase:',
+                errorCheck.message
+            );
+            return;
+        }
+
+        if (productosExistentes.length === 0) {
+            console.log(
+                'La tabla está vacía. Insertando productos base...'
+            );
+
+            const productosBase = [
+                {
+                    nombre: 'Pollo Fresco',
+                    descripcion:
+                        'Variedad de cortes y pollo entero de la más alta calidad y frescura.',
+                    marca: 'Rico Pollo',
+                    precio: 18.50,
+                    imagen: './assets/img/Productos/Pollo.png',
+                    id_admin: 1,
+                    id_categoria: 1
+                },
+                {
+                    nombre: 'Cortes de Cerdo',
+                    descripcion:
+                        'Chuletas, lomo y costillas seleccionadas, tiernas y llenas de sabor.',
+                    marca: 'Rico Pollo',
+                    precio: 25.00,
+                    imagen: './assets/img/Productos/Cerdo.png',
+                    id_admin: 1,
+                    id_categoria: 2
+                },
+                {
+                    nombre: 'Embutidos Selectos',
+                    descripcion:
+                        'Jamonadas, salchichas y chorizos ideales para tus desayunos y parrillas.',
+                    marca: 'Rico Pollo',
+                    precio: 12.90,
+                    imagen: './assets/img/Productos/Embutidos.png',
+                    id_admin: 1,
+                    id_categoria: 3
+                },
+                {
+                    nombre: 'Huevos de Corral',
+                    descripcion:
+                        'Frescos, nutritivos y seleccionados bajo rigurosos controles de calidad.',
+                    marca: 'Rico Pollo',
+                    precio: 8.50,
+                    imagen: './assets/img/Productos/Huevos.png',
+                    id_admin: 1,
+                    id_categoria: 4
+                },
+                {
+                    nombre: 'Productos Preparados',
+                    descripcion:
+                        'Milanesas, nuggets y apanados listos para cocinar de forma rápida y deliciosa.',
+                    marca: 'Rico Pollo',
+                    precio: 22.00,
+                    imagen: './assets/img/Productos/Preparados.png',
+                    id_admin: 1,
+                    id_categoria: 5
+                },
+                {
+                    nombre: 'Aceite Vegetal',
+                    descripcion:
+                        'Aceite 100% puro y saludable, ideal para realzar el sabor de todas tus comidas.',
+                    marca: 'Rico Pollo',
+                    precio: 9.90,
+                    imagen: './assets/img/Productos/Aceite.png',
+                    id_admin: 1,
+                    id_categoria: 6
+                }
+            ];
+
+            const { error: insertError } = await supabase
+                .from('producto')
+                .insert(productosBase);
+
+            if (insertError) {
+                console.error(
+                    'Error al insertar productos base:',
+                    insertError.message
+                );
+            } else {
+                console.log(
+                    'Productos base insertados correctamente.'
+                );
+            }
+        } else {
+            console.log(
+                'Los productos ya están cargados en Supabase.'
+            );
+        }
+
+    } catch (error) {
+        console.error('Error al cargar productos base:', error);
     }
 }
 
+// RUTA PRINCIPAL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// INICIAR SERVIDOR
 app.listen(port, () => {
-  console.log(`🚀 Servidor de RICO corriendo en http://localhost:${port}`);
-  console.log(`🔌 Conectado a la API de Supabase de Gabriel Apac`);
-  poblarProductosBase();
+    console.log(`Servidor de RICO corriendo en http://localhost:${port}`);
+    poblarProductosBase();
 });
