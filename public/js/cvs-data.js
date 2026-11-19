@@ -4,7 +4,7 @@ const rolesData = {
     1: {
         nombre: "Huarac Valle Manuel Angel",
         rol: "Gerente de Diseño Web",
-        foto: "assets/img/desarrolladores/img1.jpeg",
+        foto: "assets/img/Dev/img1.png",
 
         capacidades: [
             "Desarrollo Frontend",
@@ -27,8 +27,8 @@ const rolesData = {
         cv: "assets/CV/CV_Manuel.pdf",
 
         certificados: [
-            { nombre: "Certificado 1", url: "Certificado .pdf" },
-            { nombre: "Certificado 2", url: "Certificado .pdf" }
+            { nombre: "Certificado 1", url: "assets/Certificados/Certificado_Manuel.pdf" },
+            { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Manuel2.pdf" }
         ],
 
         capacitaciones: [
@@ -39,7 +39,7 @@ const rolesData = {
     2: {
         nombre: "Apac Martinez Gabriel Alejandro",
         rol: "Gerente de Desarrollo",
-        foto: "img/img2.jpg",
+        foto: "assets/img/Dev/img2.png",
 
         capacidades: [
             "Gestión e Integración de Bases de Datos",
@@ -62,8 +62,8 @@ const rolesData = {
         cv: "assets/CV/CV_Gabriel.pdf",
 
         certificados: [
-            { nombre: "Certificado 1", url: "Certificado Victor1.pdf" },
-            { nombre: "Certificado 2", url: "Certificado Victor1.pdf" }
+            { nombre: "Certificado 1", url: "assets/Certificados/Certificado_Gabriel.pdf" },
+            { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Gabriel2.pdf" }
         ],
 
         capacitaciones: [
@@ -74,7 +74,7 @@ const rolesData = {
     3: {
         nombre: "Yanac Tomaiconsa Fernando Jose",
         rol: "Desarrollador Backend",
-        foto: "img/img3.jpeg",
+        foto: "assets/img/Dev/img3.png",
 
         capacidades: [
             "Desarrollo Backend con Java y Spring Boot",
@@ -97,8 +97,8 @@ const rolesData = {
         cv: "assets/CV/CV_Fernando.pdf",
 
         certificados: [
-            { nombre: "Certificado 1", url: "Certificado_Daniel.pdf" },
-            { nombre: "Certificado 2", url: "Certificado_Daniel2.pdf" }
+            { nombre: "Certificado 1", url: "assets/Certificados/Certificado_Fernando.pdf" },
+            { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Fernando2.pdf" }
         ],
 
         capacitaciones: [
@@ -144,7 +144,7 @@ const rolesData = {
     5: {
         nombre: "Sánchez Chunga Sergio Alberto",
         rol: "Analista QA",
-        foto: "img/img5.jpg",
+        foto: "assets/img/Dev/img5.png",
 
         capacidades: [
             "Automatización de pruebas",
@@ -167,8 +167,8 @@ const rolesData = {
         cv: "assets/CV/CV_Sergio.pdf",
 
         certificados: [
-            { nombre: "Certificado 1", url: "Certificado_Pablo.pdf" },
-            { nombre: "Certificado 2", url: "Certificado_Pablo.pdf" }
+            { nombre: "Certificado 1", url: "assets/Certificados/Certificado_Sergio.pdf" },
+            { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Sergio2.pdf" }
         ],
 
         capacitaciones: [
@@ -179,7 +179,7 @@ const rolesData = {
     6: {
          nombre: "Ramos Carranza Mauricio Sebastian",
     rol: "Frontend Developer",
-    foto: "assets/img/desarrolladores/integrante6.jpg",
+    foto: "assets/img/Dev/img6.png",
 
     capacidades: [
         "Desarrollo de interfaces web",
@@ -215,7 +215,8 @@ const rolesData = {
 
     cv: "assets/CV/CV_Mauricio.pdf",
 
-    certificados: [],
+    certificados: [{ nombre: "Certificado 1", url: "assets/Certificados/Certificado_Mauricio.pdf" },
+            { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Mauricio2.pdf" }],
 
     capacitaciones: [" Certificados y capacitaciones registrados en el CV."]
     }
