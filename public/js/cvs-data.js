@@ -1,10 +1,10 @@
-    
+
 const rolesData = {
 
     1: {
         nombre: "Huarac Valle Manuel Angel",
         rol: "Gerente de Diseño Web",
-        foto: "assets/img/Dev/img1.png",
+        foto: "assets/img/Dev/img1",
 
         capacidades: [
             "Desarrollo Frontend",
