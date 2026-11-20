@@ -354,6 +354,61 @@ async function poblarProductosBase() {
     }
 }
 
+// === API DE CAPACITACIONES DE DESARROLLADORES (SUPABSE) ===
+
+// Obtener las capacitaciones de un integrante específico
+app.get('/api/capacitaciones/:id_desarrollador', async (req, res) => {
+    const idDesarrollador = parseInt(req.params.id_desarrollador, 10);
+
+    const { data, error } = await supabase
+        .from('capacitacion')
+        .select('*')
+        .eq('id_desarrollador', idDesarrollador)
+        .order('id_capacitacion', { ascending: true });
+
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data);
+});
+
+// Registrar una nueva capacitación
+app.post('/api/capacitaciones', async (req, res) => {
+    const { id_desarrollador, titulo, institucion, anio, id_admin } = req.body;
+
+    if (!id_desarrollador || !titulo || !titulo.trim()) {
+        return res.status(400).json({ exito: false, mensaje: 'Faltan datos obligatorios (desarrollador y título).' });
+    }
+
+    const { data, error } = await supabase
+        .from('capacitacion')
+        .insert([
+            {
+                id_desarrollador: parseInt(id_desarrollador, 10),
+                titulo: titulo.trim(),
+                institucion: institucion ? institucion.trim() : null,
+                anio: anio ? anio.trim() : null,
+                id_admin: id_admin ? parseInt(id_admin, 10) : 1
+            }
+        ])
+        .select()
+        .single();
+
+    if (error) return res.status(500).json({ exito: false, error: error.message });
+    res.json({ exito: true, mensaje: 'Capacitación agregada correctamente', data });
+});
+
+// Eliminar una capacitación agregada (útil para pruebas o correcciones)
+app.delete('/api/capacitaciones/:id', async (req, res) => {
+    const idCapacitacion = parseInt(req.params.id, 10);
+
+    const { error } = await supabase
+        .from('capacitacion')
+        .delete()
+        .eq('id_capacitacion', idCapacitacion);
+
+    if (error) return res.status(500).json({ exito: false, error: error.message });
+    res.json({ exito: true, mensaje: 'Capacitación eliminada' });
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
