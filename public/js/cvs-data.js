@@ -32,7 +32,8 @@ const rolesData = {
         ],
 
         capacitaciones: [
-            "Certificados y capacitaciones registrados en el CV."
+            "Cisco Networking Academy - Cyber Threat Management (Feb 2026)",
+            "IBM SkillsBuild - Enterprise Design Thinking Practitioner (Oct 2026)"
         ]
     },
 
@@ -67,7 +68,8 @@ const rolesData = {
         ],
 
         capacitaciones: [
-            "Certificados y capacitaciones registrados en el CV."
+            "Cisco Networking Academy & UTP - Gestión de Amenazas Cibernéticas (Feb 2026)",
+            "IBM SkillsBuild - Enterprise Design Thinking Practitioner (Sep 2026)"
         ]
     },
 
@@ -374,7 +376,7 @@ function abrirModalCV(numero) {
     // Abrir modal con Bootstrap
     const modalEl = document.getElementById("modalVistaPreviaCV");
     if (modalEl && typeof bootstrap !== "undefined") {
-        const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl, { focus: false });
         bsModal.show();
     }
 }
