@@ -4,7 +4,7 @@ const rolesData = {
     1: {
         nombre: "Huarac Valle Manuel Angel",
         rol: "Gerente de Diseño Web",
-        foto: "assets/img/Dev/img1",
+        foto: "assets/img/Dev/img1.jpeg",
 
         capacidades: [
             "Desarrollo Frontend",
@@ -39,7 +39,7 @@ const rolesData = {
     2: {
         nombre: "Apac Martinez Gabriel Alejandro",
         rol: "Gerente de Desarrollo",
-        foto: "assets/img/Dev/img2.png",
+        foto: "assets/img/Dev/img2.jpeg",
 
         capacidades: [
             "Gestión e Integración de Bases de Datos",
@@ -144,7 +144,7 @@ const rolesData = {
     5: {
         nombre: "Sánchez Chunga Sergio Alberto",
         rol: "Analista QA",
-        foto: "assets/img/Dev/img5.png",
+        foto: "assets/img/Dev/img5.jpeg",
 
         capacidades: [
             "Automatización de pruebas",
@@ -179,7 +179,7 @@ const rolesData = {
     6: {
          nombre: "Ramos Carranza Mauricio Sebastian",
     rol: "Frontend Developer",
-    foto: "assets/img/Dev/img6.png",
+    foto: "assets/img/Dev/img6.jpeg",
 
     capacidades: [
         "Desarrollo de interfaces web",
