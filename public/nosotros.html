@@ -305,48 +305,184 @@
         </div>
     </section>
 
-    <!-- Seccion Desarrolladores -->
-    <section id="desarrolladores" class="developers-section py-5">
+ <!-- SECCIÓN DESARROLLADORES -->
+    <main class="developers-section py-5">
         <div class="container">
+
             <div class="text-center mb-5">
-                <p class="section-kicker mb-2">el equipo detrás del código</p>
-                <h2 class="section-title mb-2">Desarrolladores</h2>
-                <p class="section-intro mb-0">Conoce el perfil profesional de cada integrante del equipo.</p>
+
+                <span class="text-danger fw-bold">RICO ALIMENTOS</span>
+
+                <h2 class="fw-bold">Conoce a nuestro equipo</h2>
+
+                <p class="text-muted">
+                    Selecciona un integrante para conocer su perfil profesional,
+                    capacidades y experiencia.
+                </p>
+
             </div>
 
-            <div class="row g-4 justify-content-center" id="contenedorDesarrolladores">
-                <!-- TODO (Sebastian Arteaga): generar estas tarjetas dinámicamente desde cvs-data.js -->
-                <!-- Placeholder de ejemplo, reemplazar por la tarjeta real cuando cvs-data.js esté listo -->
-            </div>
-        </div>
-    </section>
 
-    <!-- Seccion CVs -->
-    <div class="modal fade" id="modalVistaPreviaCV" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title fw-bold" id="modalVistaPreviaCVLabel">
-                        <i class="bi bi-person-vcard-fill me-2"></i>Vista Previa de CV
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4" id="cuerpoVistaPreviaCV">
-                    <!-- TODO (Fernando Yanac): cargar aquí dinámicamente el perfil seleccionado -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" id="btnAgregarCapacitacion">
-                        <i class="bi bi-plus-circle me-1"></i>Agregar capacitación
-                    </button>
-                    <a href="cv-completo.html" target="_blank" rel="noopener noreferrer"
-                        id="btnVerCVCompleto" class="btn btn-danger">
-                        <i class="bi bi-box-arrow-up-right me-1"></i>Ver CV Completo
-                    </a>
+            <!-- BOTONES DE ROLES -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-12">
+
+                    <div class="d-flex justify-content-center flex-wrap gap-2">
+
+                        <button type="button"
+                            class="btn btn-outline-danger fw-bold"
+                            onclick="mostrarRol(1)"
+                            id="btn-rol-1">
+                            Gerente de Diseño Web
+                        </button>
+
+                        <button type="button"
+                            class="btn btn-outline-danger fw-bold"
+                            onclick="mostrarRol(2)"
+                            id="btn-rol-2">
+                            Gerente de Desarrollo
+                        </button>
+
+                        <button type="button"
+                            class="btn btn-outline-danger fw-bold"
+                            onclick="mostrarRol(3)"
+                            id="btn-rol-3">
+                            Desarrollador Backend
+                        </button>
+
+                        <button type="button"
+                            class="btn btn-outline-danger fw-bold"
+                            onclick="mostrarRol(4)"
+                            id="btn-rol-4">
+                            Desarrollador Full Stack
+                        </button>
+
+                        <button type="button"
+                            class="btn btn-outline-danger fw-bold"
+                            onclick="mostrarRol(5)"
+                            id="btn-rol-5">
+                            Analista QA
+                        </button>
+
+                        <button type="button"
+                            class="btn btn-outline-danger fw-bold"
+                            onclick="mostrarRol(6)"
+                            id="btn-rol-6">
+                            Frontend Developer
+                        </button>
+
+                    </div>
                 </div>
             </div>
+
+
+            <!-- PERFIL DEL INTEGRANTE -->
+            <div class="developer-profile border border-danger p-4 p-md-5 rounded-4 shadow-sm">
+
+                <div class="row align-items-center">
+
+                    <!-- FOTO Y DOCUMENTOS -->
+                    <div class="col-md-4 text-center mb-4 mb-md-0">
+
+                        <div class="mb-4">
+                            <img
+                                id="fotoPerfil"
+                                src="img/img1.jpeg"
+                                alt="Fotografía del desarrollador"
+                                class="perfil-img">
+                        </div>
+
+                        <h3 id="nombre" class="fw-bold">Walter Rosell</h3>
+
+                        <p id="rolNombre" class="text-danger fw-semibold">
+                            Gerente de Diseño Web
+                        </p>
+
+                        <div class="d-flex flex-column gap-2">
+
+                            <a href="#"
+                                id="btn-cv"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-danger btn-sm">
+                                <i class="bi bi-file-earmark-person me-2"></i>
+                                Ver CV
+                            </a>
+
+                            <a href="#"
+                                id="btn-cert-1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-outline-danger btn-sm">
+                                Certificado 1
+                            </a>
+
+                            <a href="#"
+                                id="btn-cert-2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-outline-danger btn-sm">
+                                Certificado 2
+                            </a>
+
+                        </div>
+                    </div>
+
+
+                    <!-- INFORMACIÓN -->
+                    <div class="col-md-8">
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-code-slash me-2"></i>
+                                Herramientas de desarrollo
+                            </h5>
+
+                            <ul id="herramientas" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-braces me-2"></i>
+                                Lenguajes de programación
+                            </h5>
+
+                            <ul id="lenguajes" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-laptop me-2"></i>
+                                Capacidades de programación
+                            </h5>
+
+                            <ul id="capacidades" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-people me-2"></i>
+                                Habilidades blandas
+                            </h5>
+
+                            <ul id="habilidades" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-mortarboard me-2"></i>
+                                Certificaciones y capacitaciones
+                            </h5>
+
+                            <ul id="capacitaciones" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
+    </main>
 
     <!-- Seccion Empresa -->
     <section id="contacto-empresa" class="company-contact-section bg-light py-5">
