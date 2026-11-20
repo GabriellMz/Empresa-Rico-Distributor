@@ -241,7 +241,69 @@
   margin-bottom: 1rem;
 }
 
+/* Sección Agradecimientos */
+#contacto-empresa .representante img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-primary);
+}
 
+#contacto-empresa .representante h5 {
+  color: var(--color-dark);
+  font-weight: 700;
+}
+
+#contacto-empresa .representante p {
+  color: var(--color-gray);
+  font-size: 0.9rem;
+}
+
+#contacto-empresa .agradecimiento-texto {
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Ajustes sección Agradecimientos */
+#contacto-empresa {
+  padding: 45px 0 !important;
+}
+
+#contacto-empresa .representante {
+  gap: 20px;
+  margin-bottom: 15px !important;
+}
+
+#contacto-empresa .representante img {
+  width: 200px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-primary);
+}
+
+#contacto-empresa .representante h5 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+#contacto-empresa .agradecimiento-texto {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+
+@media (max-width: 576px) {
+  #contacto-empresa .representante {
+    flex-direction: column;
+    text-align: center;
+  }
+}
 @media (max-width: 992px) {
   #carruselNosotros .carousel-item img {
     height: 360px;

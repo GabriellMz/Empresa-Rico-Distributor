@@ -154,16 +154,17 @@ const rolesData = {
             "Programación y pruebas de software"
         ],
 
-        herramientas: ["Selenium", "VS Code", "Git"],
+        herramientas: ["Vs Code","Git","GitHub", "Docker"],
 
-        lenguajes: ["Java", "Python", "SQL"],
+        lenguajes: ["Java","JavaScript", "Python", "SQL"],
 
         habilidades: [
+            "Liderazgo",
+            "Trabajo en equipo",
             "Atención al detalle",
             "Comunicación efectiva",
             "Pensamiento analítico",
             "Resolución de problemas",
-            "Organización"
         ],
 
         cv: "assets/CV/CV_Sergio.pdf",
@@ -174,7 +175,8 @@ const rolesData = {
         ],
 
         capacitaciones: [
-            "Certificados y capacitaciones registrados en el CV."
+            "Cisco - Introduction to Cybersecurity (Cisco Networking Academy)",
+            "Cisco - Networking Basics (Cisco Networking Academy)"
         ]
     },
 
