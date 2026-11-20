@@ -179,7 +179,7 @@ const rolesData = {
     6: {
          nombre: "Ramos Carranza Mauricio Sebastian",
     rol: "Frontend Developer",
-    foto: "assets/img/Dev/img6.jpeg",
+    foto: "assets/img/Dev/img6.png",
 
     capacidades: [
         "Desarrollo de interfaces web",
