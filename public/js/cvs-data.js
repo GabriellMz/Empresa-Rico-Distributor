@@ -102,7 +102,8 @@ const rolesData = {
         ],
 
         capacitaciones: [
-            "Certificados y capacitaciones registrados en el CV."
+            "Cisco - IT Essentials: PC Hardware and Software (Cisco Networking Academy)",
+            "Cisco - CCNAv7: Introduction to Networks (Cisco Networking Academy)"
         ]
     },
 
@@ -129,7 +130,7 @@ const rolesData = {
             "Adaptabilidad"
         ],
 
-        cv: "assets/CV/CV_Sebastian.pdf",
+        cv: "assets/CV/Cv_Sebastian.pdf",
 
         certificados: [
             { nombre: "Certificado 1", url: "assets/Certificados/Certificado_Sebastian.pdf" },
@@ -137,7 +138,8 @@ const rolesData = {
         ],
 
         capacitaciones: [
-            "Certificados y capacitaciones registrados en el CV."
+            "Cisco - Introduction to Data Science (Cisco Networking Academy)",
+            "Cisco & Python Institute - Python Essentials 1 (OpenEDG Python Institute)"
         ]
     },
 
@@ -215,58 +217,69 @@ const rolesData = {
 
     cv: "assets/CV/CV_Mauricio.pdf",
 
-    certificados: [{ nombre: "Certificado 1", url: "assets/Certificados/Certificado_Mauricio.pdf" },
-            { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Mauricio2.pdf" }],
+    certificados: [
+        { nombre: "Certificado 1", url: "assets/Certificados/Certificado_Mauricio.pdf" },
+        { nombre: "Certificado 2", url: "assets/Certificados/Certificado_Mauricio2.pdf" }
+    ],
 
-    capacitaciones: [" Certificados y capacitaciones registrados en el CV."]
+    capacitaciones: [
+        "UTP - Herramientas Profesionales: Design Thinking y Empatía en Acción (Abril 2025)",
+        "IDAT - Curso de Diseño y Desarrollo Web (96 hrs) (Octubre 2026)"
+    ]
     }
 
 };
 
 
-// FUNCIÓN PARA MOSTRAR EL PERFIL
-function mostrarRol(numero) {
+// VARIABLE GLOBAL DEL INTEGRANTE ACTIVO
+let rolActual = 1;
 
+// FUNCIÓN PARA MOSTRAR EL PERFIL EN LA PÁGINA
+function mostrarRol(numero) {
+    rolActual = numero;
     const rol = rolesData[numero];
 
     if (!rol) return;
 
     // FOTO Y NOMBRE
-    document.getElementById("fotoPerfil").src = rol.foto;
-    document.getElementById("nombre").textContent = rol.nombre;
-    document.getElementById("rolNombre").textContent = rol.rol;
+    const fotoPerfil = document.getElementById("fotoPerfil");
+    if (fotoPerfil) fotoPerfil.src = rol.foto;
 
-    // CV
+    const nombre = document.getElementById("nombre");
+    if (nombre) nombre.textContent = rol.nombre;
+
+    const rolNombre = document.getElementById("rolNombre");
+    if (rolNombre) rolNombre.textContent = rol.rol;
+
+    // BOTÓN VER CV (Configurado para abrir el Modal de Vista Previa)
     const btnCV = document.getElementById("btn-cv");
+    if (btnCV) {
+        btnCV.style.display = "block";
+        btnCV.onclick = () => abrirModalCV(numero);
+    }
 
-    btnCV.href = rol.cv || "#";
-    btnCV.style.display = rol.cv ? "block" : "none";
-
-    // CERTIFICADOS
+    // CERTIFICADOS (Vista normal: mantiene siempre el texto 'Certificado 1' y 'Certificado 2')
     for (let i = 1; i <= 2; i++) {
-
         const btn = document.getElementById(`btn-cert-${i}`);
-        const cert = rol.certificados[i - 1];
+        if (!btn) continue;
+        const cert = (rol.certificados && rol.certificados[i - 1]) ? rol.certificados[i - 1] : null;
 
         if (cert) {
             btn.href = cert.url;
-            btn.textContent = cert.nombre;
+            btn.textContent = `Certificado ${i}`;
             btn.style.display = "block";
         } else {
             btn.style.display = "none";
         }
-
     }
 
-    // FUNCIÓN PARA CARGAR LISTAS
+    // FUNCIÓN PARA CARGAR LISTAS EN LA PÁGINA PRINCIPAL
     function cargarLista(id, datos) {
-
         const elemento = document.getElementById(id);
-
-        elemento.innerHTML = datos.length
+        if (!elemento) return;
+        elemento.innerHTML = (datos && datos.length)
             ? datos.map(item => `<li class="mb-2">• ${item}</li>`).join("")
             : "<li>Información pendiente de registrar</li>";
-
     }
 
     cargarLista("herramientas", rol.herramientas);
@@ -277,9 +290,7 @@ function mostrarRol(numero) {
 
     // BOTONES ACTIVOS
     for (let i = 1; i <= 6; i++) {
-
         const boton = document.getElementById(`btn-rol-${i}`);
-
         if (!boton) continue;
 
         if (i === numero) {
@@ -289,11 +300,169 @@ function mostrarRol(numero) {
             boton.classList.remove("btn-danger");
             boton.classList.add("btn-outline-danger");
         }
-
     }
-
 }
 
+// FUNCIÓN PARA ABRIR EL MODAL DE VISTA PREVIA (FERNANDO YANAC)
+function abrirModalCV(numero) {
+    const id = numero || rolActual || 1;
+    const rol = rolesData[id];
+    if (!rol) return;
+
+    // Foto, nombre y rol en el modal
+    const modalFoto = document.getElementById("modalFotoPerfil");
+    if (modalFoto) modalFoto.src = rol.foto || "";
+
+    const modalNombre = document.getElementById("modalNombre");
+    if (modalNombre) modalNombre.textContent = rol.nombre || "";
+
+    const modalRolNombre = document.getElementById("modalRolNombre");
+    if (modalRolNombre) modalRolNombre.textContent = rol.rol || "";
+
+    // Certificados en el modal
+    const certsContainer = document.getElementById("modalCertificadosContainer");
+    if (certsContainer) {
+        certsContainer.innerHTML = "";
+        if (rol.certificados && rol.certificados.length > 0) {
+            rol.certificados.forEach((c, idx) => {
+                const a = document.createElement("a");
+                a.href = c.url;
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+                a.className = "btn btn-outline-danger btn-sm";
+                a.innerHTML = `<i class="bi bi-patch-check me-1"></i>Certificado ${idx + 1}`;
+                certsContainer.appendChild(a);
+            });
+        } else {
+            certsContainer.innerHTML = '<span class="text-muted small fst-italic"><i class="bi bi-info-circle me-1"></i>Certificados pendientes de adjuntar</span>';
+        }
+    }
+
+    // Listas dinámicas del modal
+    function renderizarListaModal(elementId, items) {
+        const ul = document.getElementById(elementId);
+        if (!ul) return;
+        if (!items || items.length === 0) {
+            ul.innerHTML = '<li class="text-muted fst-italic">Sin información registrada</li>';
+            return;
+        }
+        ul.innerHTML = items.map(item => `
+            <li class="mb-1 d-flex align-items-start">
+                <i class="bi bi-check2-circle text-danger me-2 mt-1"></i>
+                <span>${item}</span>
+            </li>
+        `).join("");
+    }
+
+    renderizarListaModal("modalHerramientas", rol.herramientas);
+    renderizarListaModal("modalLenguajes", rol.lenguajes);
+    renderizarListaModal("modalCapacidades", rol.capacidades);
+    renderizarListaModal("modalHabilidades", rol.habilidades);
+
+    // Renderizar capacitaciones en el modal
+    actualizarListaCapacitacionesModal(rol);
+
+    // Botón Ver CV Completo en otra pestaña
+    const btnVerCVCompleto = document.getElementById("btnVerCVCompleto");
+    if (btnVerCVCompleto) {
+        // Enlace al documento PDF del integrante
+        btnVerCVCompleto.href = rol.cv || `cv-completo.html?id=${id}`;
+    }
+
+    // Abrir modal con Bootstrap
+    const modalEl = document.getElementById("modalVistaPreviaCV");
+    if (modalEl && typeof bootstrap !== "undefined") {
+        const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        bsModal.show();
+    }
+}
+
+// FUNCIÓN PARA ACTUALIZAR LA LISTA DE CAPACITACIONES EN EL MODAL
+function actualizarListaCapacitacionesModal(rol) {
+    const ul = document.getElementById("modalCapacitaciones");
+    const countBadge = document.getElementById("modalCapacitacionesCount");
+    if (!ul) return;
+
+    const items = rol.capacitaciones || [];
+    if (countBadge) countBadge.textContent = items.length;
+
+    if (items.length === 0) {
+        ul.innerHTML = '<li class="text-muted fst-italic">Sin capacitaciones registradas</li>';
+        return;
+    }
+
+    ul.innerHTML = items.map(item => `
+        <li class="mb-1 d-flex align-items-start">
+            <i class="bi bi-mortarboard-fill text-danger me-2 mt-1"></i>
+            <span>${item}</span>
+        </li>
+    `).join("");
+}
+
+// FUNCIÓN PARA AGREGAR NUEVA CAPACITACIÓN EN TIEMPO REAL
+function agregarNuevaCapacitacion() {
+    const id = rolActual || 1;
+    const rol = rolesData[id];
+    if (!rol) return;
+
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            title: 'Agregar Nueva Capacitación',
+            text: `Registrar para: ${rol.nombre}`,
+            input: 'text',
+            inputPlaceholder: 'Ej: Especialización en Cloud Computing, Scrum Master...',
+            showCancelButton: true,
+            confirmButtonText: '<i class="bi bi-plus-lg me-1"></i>Agregar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            inputValidator: (value) => {
+                if (!value || !value.trim()) {
+                    return '¡Por favor ingresa el título de la capacitación!';
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const nueva = result.value.trim();
+                if (!Array.isArray(rol.capacitaciones)) {
+                    rol.capacitaciones = [];
+                }
+                rol.capacitaciones.push(nueva);
+
+                // Actualizar lista en el modal
+                actualizarListaCapacitacionesModal(rol);
+
+                // Actualizar también en la vista principal
+                const ulPrincipal = document.getElementById("capacitaciones");
+                if (ulPrincipal) {
+                    ulPrincipal.innerHTML = rol.capacitaciones.map(item => `<li class="mb-2">• ${item}</li>`).join("");
+                }
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Capacitación Agregada!',
+                    text: `Se agregó correctamente a ${rol.nombre}.`,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    } else {
+        const nueva = prompt(`Ingresa la nueva capacitación para ${rol.nombre}:`);
+        if (nueva && nueva.trim()) {
+            if (!Array.isArray(rol.capacitaciones)) {
+                rol.capacitaciones = [];
+            }
+            rol.capacitaciones.push(nueva.trim());
+            actualizarListaCapacitacionesModal(rol);
+            const ulPrincipal = document.getElementById("capacitaciones");
+            if (ulPrincipal) {
+                ulPrincipal.innerHTML = rol.capacitaciones.map(item => `<li class="mb-2">• ${item}</li>`).join("");
+            }
+            alert('Capacitación agregada correctamente.');
+        }
+    }
+}
 
 // CARGAR PRIMER INTEGRANTE
 document.addEventListener("DOMContentLoaded", () => {

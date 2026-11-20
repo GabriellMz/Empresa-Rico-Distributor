@@ -401,14 +401,13 @@
 
                         <div class="d-flex flex-column gap-2">
 
-                            <a href="#"
+                            <button type="button"
                                 id="btn-cv"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="btn btn-danger btn-sm">
-                                <i class="bi bi-file-earmark-person me-2"></i>
+                                class="btn btn-danger btn-sm fw-bold"
+                                onclick="abrirModalCV()">
+                                <i class="bi bi-person-vcard me-2"></i>
                                 Ver CV
-                            </a>
+                            </button>
 
                             <a href="#"
                                 id="btn-cert-1"
@@ -484,6 +483,97 @@
 
         </div>
     </main>
+
+    <!-- Modal Vista Previa CV (Fernando Yanac) -->
+    <div class="modal fade" id="modalVistaPreviaCV" tabindex="-1" aria-labelledby="modalVistaPreviaCVLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold" id="modalVistaPreviaCVLabel">
+                        <i class="bi bi-person-vcard-fill me-2"></i>Vista Previa de CV
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="cuerpoVistaPreviaCV">
+                    <!-- Cabecera del perfil dentro del modal -->
+                    <div class="d-flex flex-column flex-sm-row align-items-center gap-3 pb-3 mb-3 border-bottom">
+                        <img id="modalFotoPerfil" src="" alt="Foto Desarrollador"
+                            class="rounded-circle border border-3 border-danger shadow-sm"
+                            style="width: 110px; height: 110px; object-fit: cover;">
+                        <div class="text-center text-sm-start flex-grow-1">
+                            <h4 id="modalNombre" class="fw-bold mb-1 text-dark"></h4>
+                            <span id="modalRolNombre" class="badge bg-danger fs-6 mb-2"></span>
+                            <div id="modalCertificadosContainer" class="d-flex flex-wrap gap-2 mt-1 justify-content-center justify-content-sm-start">
+                                <!-- Enlaces a certificados generados dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grilla de detalles técnicos -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-code-slash me-2"></i>Herramientas de Desarrollo
+                                </h6>
+                                <ul id="modalHerramientas" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-braces me-2"></i>Lenguajes de Programación
+                                </h6>
+                                <ul id="modalLenguajes" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-laptop me-2"></i>Capacidades Técnicas
+                                </h6>
+                                <ul id="modalCapacidades" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-people me-2"></i>Habilidades Blandas
+                                </h6>
+                                <ul id="modalHabilidades" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3 bg-light">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold text-danger mb-0">
+                                        <i class="bi bi-mortarboard me-2"></i>Certificaciones y Capacitaciones
+                                    </h6>
+                                    <span class="badge bg-secondary" id="modalCapacitacionesCount">0</span>
+                                </div>
+                                <ul id="modalCapacitaciones" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-danger fw-bold" id="btnAgregarCapacitacion" onclick="agregarNuevaCapacitacion()">
+                        <i class="bi bi-plus-circle me-1"></i>Agregar capacitación
+                    </button>
+                    <a href="#" target="_blank" rel="noopener noreferrer"
+                        id="btnVerCVCompleto" class="btn btn-danger fw-bold">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>Ver CV Completo
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Seccion Empresa -->
     <section id="contacto-empresa" class="company-contact-section bg-light py-5">
