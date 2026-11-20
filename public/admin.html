@@ -21,8 +21,10 @@
     <div class="admin-layout">
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-brand">
-                <img src="./assets/img/Logo Rico/logo oficial blanco - fondo transparente.png" alt="Logo RICO"
-                    class="sidebar-logo">
+                <a href="index.html">
+                    <img src="./assets/img/Logo Rico/logo oficial blanco - fondo transparente.png" alt="Logo RICO"
+                        class="sidebar-logo">
+                </a>
             </div>
 
             <nav class="sidebar-nav">
@@ -30,20 +32,13 @@
                     <i class="bi bi-box-seam-fill"></i>
                     <span>Productos</span>
                 </a>
-                <a href="index.html" class="sidebar-link" target="_blank" rel="noopener">
+                <a href="index.html" class="sidebar-link">
                     <i class="bi bi-globe2"></i>
                     <span>Ver sitio público</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer">
-                <!--
-                    Botón de Cerrar Sesión.
-                    La lógica de abajo (js/admin-ui.js) solo limpia la sesión guardada
-                    en el navegador y redirige a index.html como comportamiento por
-                    defecto. Manuel: ajusta esto a tu mecanismo real de sesión si usas
-                    otra cosa (token, cookie, etc.) en tu módulo de autenticación.
-                -->
                 <button type="button" class="btn btn-outline-light w-100" id="btnCerrarSesion">
                     <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
                 </button>
@@ -64,7 +59,6 @@
                 <h1 class="admin-topbar-title">Panel de Administración</h1>
                 <div class="admin-topbar-admin">
                     <i class="bi bi-person-circle"></i>
-                    <!-- Manuel: puedes reemplazar este texto con el nombre real de la sesión -->
                     <span id="nombreAdminSesion">Administrador</span>
                 </div>
             </header>
@@ -104,7 +98,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tablaProductosBody">
-                                    
+
                                 </tbody>
                             </table>
                         </div>

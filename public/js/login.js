@@ -1,89 +1,74 @@
-const CLAVE_SESION = "ricoAdminSession";
-
-document.addEventListener("DOMContentLoaded", () => {
-    const formulario = document.querySelector("#loginModal form");
-
-    if (!formulario) {
+document.addEventListener('DOMContentLoaded', () => {
+    // Si ya está logueado y entra a login.html, lo manda directo al panel
+    if (localStorage.getItem('ricoAdminSession')) {
+        window.location.href = 'admin.html';
         return;
     }
 
-    const campos = formulario.querySelectorAll("input");
-    const campoUsuario = campos[0];
-    const campoClave = campos[1];
-    const botonIngresar = formulario.querySelector("button");
-
-    if (!campoUsuario || !campoClave || !botonIngresar) {
-        return;
+    // Mostrar / ocultar contraseña
+    const btnVerClave = document.getElementById('btnVerClave');
+    const inputClave = document.getElementById('loginClave');
+    if (btnVerClave && inputClave) {
+        btnVerClave.addEventListener('click', () => {
+            const esPassword = inputClave.type === 'password';
+            inputClave.type = esPassword ? 'text' : 'password';
+            btnVerClave.innerHTML = esPassword
+                ? '<i class="bi bi-eye-slash"></i>'
+                : '<i class="bi bi-eye"></i>';
+        });
     }
 
-    campoUsuario.type = "text";
-    campoUsuario.name = "usuario";
-    campoUsuario.placeholder = "Ingresa tu usuario";
-    campoUsuario.autocomplete = "username";
-    campoUsuario.required = true;
-    campoUsuario.previousElementSibling.textContent = "Usuario";
+    // Envío de Login a /api/login
+    const formLogin = document.getElementById('formLogin');
+    if (formLogin) {
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const usuario = formLogin.usuario.value.trim();
+            const clave = formLogin.clave.value.trim();
 
-    campoClave.name = "clave";
-    campoClave.autocomplete = "current-password";
-    campoClave.required = true;
+            try {
+                const respuesta = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, clave })
+                });
 
-    botonIngresar.type = "submit";
+                const data = await respuesta.json();
 
-    const mensajeError = document.createElement("div");
-    mensajeError.className = "alert alert-danger d-none mt-3";
-    mensajeError.setAttribute("role", "alert");
-    formulario.insertBefore(mensajeError, botonIngresar);
+                if (respuesta.ok && data.exito) {
+                    localStorage.setItem('ricoAdminSession', JSON.stringify(data.admin));
 
-    function mostrarError(mensaje) {
-        mensajeError.textContent = mensaje;
-        mensajeError.classList.remove("d-none");
-    }
-
-    formulario.addEventListener("submit", async (evento) => {
-        evento.preventDefault();
-        mensajeError.textContent = "";
-        mensajeError.classList.add("d-none");
-
-        const usuario = campoUsuario.value.trim();
-        const clave = campoClave.value;
-
-        if (!usuario || !clave) {
-            mostrarError("Ingresa tu usuario y contraseña.");
-            return;
-        }
-
-        botonIngresar.disabled = true;
-        botonIngresar.textContent = "Validando...";
-
-        try {
-            const respuesta = await fetch("/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ usuario, clave })
-            });
-
-            const resultado = await respuesta.json();
-
-            if (!respuesta.ok || !resultado.exito) {
-                mostrarError(resultado.mensaje || "El usuario o la contraseña son incorrectos.");
-                return;
+                    if (typeof mostrarAlertaExito === 'function') {
+                        await mostrarAlertaExito(`Bienvenido, ${data.admin.usuario}`, 'Acceso concedido');
+                    }
+                    window.location.href = 'admin.html';
+                } else {
+                    if (typeof mostrarAlertaError === 'function') {
+                        mostrarAlertaError(data.mensaje || 'Usuario o contraseña incorrectos');
+                    } else {
+                        alert(data.mensaje || 'Credenciales incorrectas');
+                    }
+                }
+            } catch (error) {
+                if (typeof mostrarAlertaError === 'function') {
+                    mostrarAlertaError('No se pudo conectar con el servidor.');
+                }
             }
+        });
+    }
 
-            const administrador = resultado.admin || {};
-            const sesion = {
-                id_admin: administrador.id_admin || null,
-                usuario: administrador.usuario || usuario
-            };
-
-            sessionStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
-            window.location.href = "admin.html";
-        } catch (error) {
-            mostrarError("No se pudo conectar con el servidor. Inténtalo nuevamente.");
-        } finally {
-            botonIngresar.disabled = false;
-            botonIngresar.textContent = "Ingresar al Sistema";
-        }
-    });
+    // Aviso limpio para el formulario de Registro
+    const formRegistro = document.getElementById('formRegistro');
+    if (formRegistro) {
+        formRegistro.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (typeof mostrarAlertaInfo === 'function') {
+                mostrarAlertaInfo(
+                    'El registro público está deshabilitado. El acceso administrativo es gestionado por el coordinador de RICO Alimentos.',
+                    'Acceso Restringido'
+                );
+            }
+            formRegistro.reset();
+        });
+    }
 });
