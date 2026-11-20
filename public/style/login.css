@@ -1,0 +1,92 @@
+.auth-body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1f2328 0%, #3a1216 55%, #dc3545 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 900px;
+}
+
+.auth-card {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 520px;
+}
+
+.auth-brand-panel {
+    background: linear-gradient(160deg, #dc3545 0%, #9b1c28 100%);
+    color: #ffffff;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.auth-back-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.auth-back-link:hover {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.auth-logo {
+    max-width: 170px;
+    height: auto;
+}
+
+.auth-form-panel {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-tabs {
+    background-color: #f1f3f5;
+    padding: 0.35rem;
+    border-radius: 10px;
+}
+
+.auth-tabs .nav-link {
+    color: #495057;
+    border-radius: 8px;
+}
+
+.auth-tabs .nav-link.active {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-brand-panel {
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .auth-back-link {
+        align-self: flex-start;
+    }
+
+    .auth-form-panel {
+        padding: 2rem 1.5rem;
+    }
+}

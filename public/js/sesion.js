@@ -1,30 +1,22 @@
-const CLAVE_SESION = "ricoAdminSession";
+(() => {
+    const sesion = localStorage.getItem('ricoAdminSession');
 
-function obtenerSesion() {
-    const sesionGuardada = sessionStorage.getItem(CLAVE_SESION);
-
-    if (!sesionGuardada) {
-        return null;
+    if (!sesion) {
+        window.location.href = 'login.html';
+        return;
     }
 
-    try {
-        return JSON.parse(sesionGuardada);
-    } catch (error) {
-        sessionStorage.removeItem(CLAVE_SESION);
-        return null;
-    }
-}
-
-const sesionAdmin = obtenerSesion();
-
-if (!sesionAdmin || !sesionAdmin.usuario) {
-    window.location.replace("index.html");
-} else {
-    document.addEventListener("DOMContentLoaded", () => {
-        const nombreAdmin = document.getElementById("nombreAdminSesion");
-
-        if (nombreAdmin) {
-            nombreAdmin.textContent = sesionAdmin.usuario;
+    document.addEventListener('DOMContentLoaded', () => {
+        try {
+            const admin = JSON.parse(sesion);
+            const spanNombre = document.getElementById('nombreAdminSesion');
+            if (spanNombre && admin.usuario) {
+                const nombreFormateado = admin.usuario.charAt(0).toUpperCase() + admin.usuario.slice(1);
+                spanNombre.textContent = `Hola, ${nombreFormateado}`;
+            }
+        } catch (error) {
+            localStorage.removeItem('ricoAdminSession');
+            window.location.href = 'login.html';
         }
     });
-}
+})();
