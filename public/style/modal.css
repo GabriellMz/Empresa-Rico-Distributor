@@ -1,0 +1,654 @@
+.navbar {
+    min-height: 70px;
+    transition: all 0.3s ease;
+}
+
+/* Logo */
+.logo-rico {
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover .logo-rico {
+    transform: scale(1.08) rotate(-2deg);
+}
+
+.navbar-brand {
+    letter-spacing: 1px;
+}
+
+/* Enlaces */
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* Línea inferior */
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 0;
+    height: 2px;
+    background-color: #ffc107;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 60%;
+}
+
+/* Botones */
+.navbar .btn {
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+/* Login */
+.navbar .btn-outline-light:hover {
+    background-color: #fff;
+    color: #dc3545;
+    transform: translateY(-2px);
+}
+
+/* Registro */
+.navbar .btn-warning:hover {
+    background-color: #ffca2c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón móvil */
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+
+    .navbar-nav {
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 10px 15px;
+    }
+
+    .navbar-nav .nav-link::after {
+        display: none;
+    }
+
+    .navbar .d-flex {
+        padding-bottom: 10px;
+    }
+
+    .navbar .btn {
+        flex: 1;
+    }
+}
+
+.modal-backdrop {
+background-color: rgba(15, 23, 42, 0.75);
+}
+
+.modal-backdrop.show {
+opacity: 1;
+}
+
+
+body.modal-open > *:not(.modal):not(.modal-backdrop):not(#mensajeEmergente) {
+filter: blur(6px);
+transition: filter 0.3s ease;
+}
+
+
+body.modal-open .modal {
+filter: none !important;
+}
+
+/* ==========================================
+DISEÑO DEL MODAL
+========================================== */
+
+#loginModal .modal-content,
+#registroModal .modal-content {
+border: none;
+border-radius: 20px;
+overflow: hidden;
+box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+}
+
+
+#loginModal .modal-header {
+background: linear-gradient(135deg, #dc2626, #991b1b) !important;
+color: white;
+border: none;
+padding: 24px 28px;
+}
+
+#loginModal .modal-title {
+font-size: 1.3rem;
+font-weight: 700;
+}
+
+
+#registroModal .modal-header {
+background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+color: white !important;
+border: none;
+padding: 24px 28px;
+}
+
+#registroModal .modal-title {
+font-size: 1.3rem;
+font-weight: 700;
+}
+
+
+#loginModal .form-control,
+#registroModal .form-control {
+border: 2px solid #e2e8f0;
+border-radius: 10px;
+padding: 12px 15px;
+min-height: 48px;
+background-color: #f8fafc;
+transition: all 0.25s ease;
+}
+
+/* Login*/
+
+#loginModal .form-control:focus {
+border-color: #dc2626;
+background-color: white;
+box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+}
+
+/* Registro*/
+
+#registroModal .form-control:focus {
+border-color: #f59e0b;
+background-color: white;
+box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+}
+
+/* ==========================================
+BOTONES
+========================================== */
+
+#loginModal .btn-danger {
+border: none;
+border-radius: 10px;
+background: linear-gradient(135deg, #dc2626, #b91c1c);
+padding: 12px;
+transition: all 0.25s ease;
+}
+
+#loginModal .btn-danger:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+#registroModal .btn-warning {
+border: none;
+border-radius: 10px;
+background: linear-gradient(135deg, #f59e0b, #d97706);
+color: white !important;
+padding: 12px;
+transition: all 0.25s ease;
+}
+
+#registroModal .btn-warning:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+
+/* ==========================================
+ANIMACIÓN DE ENTRADA
+========================================== */
+
+.modal.fade .modal-dialog {
+transform: scale(0.9);
+transition: transform 0.3s ease;
+}
+
+.modal.fade.show .modal-dialog {
+transform: scale(1);
+}
+
+/* ==========================================
+RESPONSIVE
+========================================== */
+
+@media (max-width: 576px) {
+
+#loginModal .modal-dialog,
+#registroModal .modal-dialog {
+    margin: 15px;
+}
+
+#loginModal .modal-body,
+#registroModal .modal-body {
+    padding: 24px !important;
+}
+
+
+}
+
+#mensajeEmergente {
+
+    position: fixed;
+
+    top: 25px;
+    right: 25px;
+
+    width: 360px;
+    max-width: calc(100vw - 40px);
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 16px 20px;
+
+    background: #ffffff;
+
+    border-left: 5px solid #198754;
+
+    border-radius: 12px;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.30);
+
+    /* Por encima de Bootstrap */
+    z-index: 999999 !important;
+
+    opacity: 0;
+
+    transform: translateX(120%);
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+}
+
+
+
+#mensajeEmergente.mostrar {
+
+    opacity: 1;
+
+    transform: translateX(0);
+}
+
+#mensajeEmergente .mensaje-icono {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #198754;
+
+    font-size: 28px;
+
+    flex-shrink: 0;
+}
+
+#mensajeEmergente .mensaje-contenido {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+#mensajeEmergente .mensaje-contenido strong {
+
+    color: #198754;
+
+    font-size: 16px;
+}
+
+
+#mensajeEmergente .mensaje-contenido span {
+
+    color: #555;
+
+    font-size: 14px;
+}
+/* ==========================================
+   TARJETAS DE PRODUCTOS
+   ========================================== */
+
+.producto-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: all 0.35s ease;
+}
+
+/* Efecto al pasar el mouse */
+.producto-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ==========================================
+   IMAGEN
+   ========================================== */
+
+.product-img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Zoom de la imagen */
+.producto-card:hover .product-img {
+    transform: scale(1.06);
+}
+
+
+/* ==========================================
+   CUERPO DE LA TARJETA
+   ========================================== */
+
+.producto-card .card-body {
+    padding: 1.5rem;
+}
+
+
+/* Título */
+.producto-card .card-title {
+    color: #212529;
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+    transition: color 0.3s ease;
+}
+
+.producto-card:hover .card-title {
+    color: #dc3545;
+}
+
+
+/* Descripción */
+.producto-card .card-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    min-height: 76px;
+}
+
+
+/* ==========================================
+   BOTÓN
+   ========================================== */
+
+.btn-producto {
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-producto:hover {
+    background-color: #bb2d3b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-producto i {
+    transition: transform 0.3s ease;
+}
+
+.btn-producto:hover i {
+    transform: translateX(4px);
+}
+/* ==========================================
+   FOOTER RICO
+   ========================================== */
+
+.footer-rico {
+    background: linear-gradient(
+        135deg,
+        #171717 0%,
+        #212529 50%,
+        #111111 100%
+    );
+
+    color: white;
+    padding: 25px 0 15px;
+    margin-top: 40px;
+}
+
+
+
+.footer-title {
+    color: #ffc107;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 45px;
+    height: 3px;
+
+    background-color: #dc3545;
+    border-radius: 10px;
+}
+
+
+/* ==========================================
+   MARCA
+   ========================================== */
+
+.footer-brand h3 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+.footer-brand p {
+    line-height: 1.7;
+    max-width: 360px;
+}
+
+
+.footer-social {
+    display: flex;
+    gap: 12px;
+}
+
+.footer-social a {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+
+.footer-social a:nth-child(1):hover {
+    background-color: #1877f2;
+    border-color: #1877f2;
+    transform: translateY(-5px);
+}
+
+
+.footer-social a:nth-child(2):hover {
+    background: linear-gradient(
+        45deg,
+        #feda75,
+        #d62976,
+        #4f5bd5
+    );
+
+    border-color: #d62976;
+    transform: translateY(-5px);
+}
+
+
+.footer-social a:nth-child(3):hover {
+    background-color: #000;
+    border-color: #fff;
+    transform: translateY(-5px);
+}
+
+.footer-social a:nth-child(4):hover {
+    background-color: #25d366;
+    border-color: #25d366;
+    transform: translateY(-5px);
+}
+
+
+/* ==========================================
+   CONTACTO
+   ========================================== */
+
+.footer-contact {
+    margin: 0;
+    padding: 0;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.contact-icon {
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+.footer-contact small {
+    display: block;
+    color: #adb5bd;
+    margin-bottom: 2px;
+}
+
+.footer-contact strong {
+    display: block;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   UTP
+   ========================================== */
+
+.utp-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    padding: 10px;
+
+    background-color: rgba(255, 255, 255, 0.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 15px;
+}
+
+.logo-utp {
+    width: 150px;
+    height: auto;
+
+    border-radius: 8px;
+
+    background-color: white;
+
+    padding: 5px;
+
+    transition: all 0.3s ease;
+}
+
+.logo-utp:hover {
+    transform: scale(1.05);
+}
+
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.15);
+    margin: 10px 0 20px;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 767px) {
+
+    .footer-rico {
+        text-align: center;
+        padding: 30px 20px 25px;
+    }
+
+    .footer-brand p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+    .footer-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-contact {
+        text-align: left;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .utp-box {
+        align-items: center;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+}
