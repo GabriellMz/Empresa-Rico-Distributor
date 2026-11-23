@@ -13,9 +13,12 @@ const supabaseKey = 'sb_publishable_yvAsHM24Bt2c7-dcaqyBLg_cS_GwtAC';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ========================================================
+// 1. AUTENTICACIÓN (LOGIN)
+// ========================================================
 app.post('/api/login', async (req, res) => {
     try {
         const { usuario, clave } = req.body;
@@ -51,6 +54,9 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// ========================================================
+// 2. PRODUCTOS, BÚSQUEDA, OFERTAS Y UPLOAD DE IMÁGENES
+// ========================================================
 app.get('/api/productos', async (req, res) => {
     try {
         const buscar = (req.query.buscar || '').trim();
@@ -101,6 +107,21 @@ app.get('/api/productos', async (req, res) => {
     }
 });
 
+app.get('/api/ofertas', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('producto')
+            .select('*')
+            .gte('descuento', 5)
+            .order('descuento', { ascending: false });
+
+        if (error) return res.status(500).json({ error: error.message });
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.post('/api/productos', async (req, res) => {
     try {
         const {
@@ -111,7 +132,8 @@ app.post('/api/productos', async (req, res) => {
             imagen,
             vencimiento_duracion,
             id_admin,
-            id_categoria
+            id_categoria,
+            descuento
         } = req.body;
 
         const nuevoProducto = {
@@ -126,6 +148,10 @@ app.post('/api/productos', async (req, res) => {
 
         if (id_categoria !== undefined) {
             nuevoProducto.id_categoria = id_categoria;
+        }
+
+        if (descuento !== undefined) {
+            nuevoProducto.descuento = parseInt(descuento, 10) || 0;
         }
 
         const { data, error } = await supabase
@@ -161,7 +187,8 @@ app.put('/api/productos/:id', async (req, res) => {
             precio,
             imagen,
             vencimiento_duracion,
-            id_categoria
+            id_categoria,
+            descuento
         } = req.body;
 
         const actualizacion = {
@@ -175,6 +202,10 @@ app.put('/api/productos/:id', async (req, res) => {
 
         if (id_categoria !== undefined) {
             actualizacion.id_categoria = id_categoria;
+        }
+
+        if (descuento !== undefined) {
+            actualizacion.descuento = parseInt(descuento, 10) || 0;
         }
 
         const { data, error } = await supabase
@@ -245,6 +276,323 @@ app.post('/api/upload', upload.single('imagen'), (req, res) => {
     res.json({ exito: true, ruta });
 });
 
+// ========================================================
+// 3. CAPACITACIONES DE DESARROLLADORES (SUPABASE)
+// ========================================================
+app.get('/api/capacitaciones/:id_desarrollador', async (req, res) => {
+    const idDesarrollador = parseInt(req.params.id_desarrollador, 10);
+
+    const { data, error } = await supabase
+        .from('capacitacion')
+        .select('*')
+        .eq('id_desarrollador', idDesarrollador)
+        .order('id_capacitacion', { ascending: true });
+
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data);
+});
+
+app.post('/api/capacitaciones', async (req, res) => {
+    const { id_desarrollador, titulo, institucion, anio, id_admin } = req.body;
+
+    if (!id_desarrollador || !titulo || !titulo.trim()) {
+        return res.status(400).json({ exito: false, mensaje: 'Faltan datos obligatorios (desarrollador y título).' });
+    }
+
+    const { data, error } = await supabase
+        .from('capacitacion')
+        .insert([
+            {
+                id_desarrollador: parseInt(id_desarrollador, 10),
+                titulo: titulo.trim(),
+                institucion: institucion ? institucion.trim() : null,
+                anio: anio ? anio.trim() : null,
+                id_admin: id_admin ? parseInt(id_admin, 10) : 1
+            }
+        ])
+        .select()
+        .single();
+
+    if (error) return res.status(500).json({ exito: false, error: error.message });
+    res.json({ exito: true, mensaje: 'Capacitación agregada correctamente', data });
+});
+
+app.delete('/api/capacitaciones/:id', async (req, res) => {
+    const idCapacitacion = parseInt(req.params.id, 10);
+
+    if (isNaN(idCapacitacion)) {
+        return res.status(400).json({ exito: false, mensaje: 'ID de capacitación inválido' });
+    }
+
+    const { data, error } = await supabase
+        .from('capacitacion')
+        .delete()
+        .eq('id_capacitacion', idCapacitacion)
+        .select();
+
+    if (error) return res.status(500).json({ exito: false, error: error.message });
+
+    if (!data || data.length === 0) {
+        return res.status(404).json({ exito: false, mensaje: 'No se eliminó ningún registro.' });
+    }
+
+    res.json({ exito: true, mensaje: 'Capacitación eliminada', data });
+});
+
+// ========================================================
+// 4. PEDIDOS / CARRITO Y BOLETA
+// ========================================================
+app.post('/api/pedidos', async (req, res) => {
+    const { cliente, items, total } = req.body;
+
+    if (!cliente || !items || items.length === 0) {
+        return res.status(400).json({ exito: false, mensaje: 'Faltan datos del cliente o productos en el carrito.' });
+    }
+
+    try {
+        let idCliente = 1;
+        if (cliente.razon_social) {
+            const { data: nuevoCliente, error: errCliente } = await supabase
+                .from('cliente')
+                .insert([{
+                    razon_social: cliente.razon_social,
+                    ruc: cliente.ruc || null,
+                    telefono: cliente.telefono || null,
+                    direccion: cliente.direccion || null,
+                    email: cliente.email || null
+                }])
+                .select()
+                .single();
+
+            if (!errCliente && nuevoCliente) {
+                idCliente = nuevoCliente.id_cliente;
+            }
+        }
+
+        const { data: pedidoCreado, error: errPedido } = await supabase
+            .from('pedido')
+            .insert([{
+                estado: 'Entregado',
+                total: parseFloat(total) || 0,
+                id_cliente: idCliente,
+                id_admin: 1
+            }])
+            .select()
+            .single();
+
+        if (errPedido) return res.status(500).json({ exito: false, error: errPedido.message });
+
+        const detalles = items.map(item => ({
+            id_pedido: pedidoCreado.id_pedido,
+            id_producto: item.id_producto,
+            cantidad: item.cantidad,
+            precio_unitario: item.precio_unitario
+        }));
+
+        const { error: errDetalle } = await supabase
+            .from('detalle_pedido')
+            .insert(detalles);
+
+        if (errDetalle) return res.status(500).json({ exito: false, error: errDetalle.message });
+
+        res.json({
+            exito: true,
+            mensaje: 'Compra registrada correctamente',
+            boleta: {
+                numero: `B001-${String(pedidoCreado.id_pedido).padStart(6, '0')}`,
+                fecha: pedidoCreado.fecha_pedido,
+                cliente,
+                items,
+                total: pedidoCreado.total
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ exito: false, error: err.message });
+    }
+});
+
+// ========================================================
+// 5. OPINIONES Y CONTACTO (contacto.html)
+// ========================================================
+app.get('/api/opiniones', async (req, res) => {
+    const { data, error } = await supabase
+        .from('opinion')
+        .select('*')
+        .order('id_opinion', { ascending: false });
+
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data);
+});
+
+app.post('/api/opiniones', async (req, res) => {
+    const { nombre_cliente, calificacion, comentario } = req.body;
+
+    if (!nombre_cliente || !comentario) {
+        return res.status(400).json({ exito: false, mensaje: 'Completa tu nombre y comentario.' });
+    }
+
+    const { data, error } = await supabase
+        .from('opinion')
+        .insert([{
+            nombre_cliente: nombre_cliente.trim(),
+            calificacion: parseInt(calificacion, 10) || 5,
+            comentario: comentario.trim()
+        }])
+        .select()
+        .single();
+
+    if (error) return res.status(500).json({ exito: false, error: error.message });
+    res.json({ exito: true, mensaje: 'Opinión publicada', data });
+});
+
+app.post('/api/contacto', async (req, res) => {
+    const { nombre, correo, telefono, asunto, mensaje } = req.body;
+
+    if (!nombre || !correo || !mensaje) {
+        return res.status(400).json({ exito: false, mensaje: 'Nombre, correo y mensaje son obligatorios.' });
+    }
+
+    const { data, error } = await supabase
+        .from('contacto')
+        .insert([{ nombre, correo, telefono, asunto, mensaje }])
+        .select()
+        .single();
+
+    if (error) return res.status(500).json({ exito: false, error: error.message });
+    res.json({ exito: true, mensaje: 'Mensaje enviado correctamente', data });
+});
+
+// ========================================================
+// 6. REPORTES ESTADÍSTICOS (reportes.html)
+// ========================================================
+app.get('/api/reportes', async (req, res) => {
+    try {
+        const [resProd, resCat, resPed, resDet, resCli] = await Promise.all([
+            supabase.from('producto').select('*'),
+            supabase.from('categoria').select('*'),
+            supabase.from('pedido').select('*'),
+            supabase.from('detalle_pedido').select('*'),
+            supabase.from('cliente').select('*')
+        ]);
+
+        const productos = resProd.data || [];
+        const categorias = resCat.data || [];
+        const pedidos = resPed.data || [];
+        const detalles = resDet.data || [];
+        const clientes = resCli.data || [];
+
+        const mapaCategorias = {};
+        categorias.forEach(c => { mapaCategorias[c.id_categoria] = c.nombre_categoria; });
+
+        const mapaProductos = {};
+        productos.forEach(p => { mapaProductos[p.id_producto] = p; });
+
+        const mapaClientes = {};
+        clientes.forEach(c => { mapaClientes[c.id_cliente] = c.razon_social; });
+
+        const mapaPedidos = {};
+        pedidos.forEach(p => { mapaPedidos[p.id_pedido] = p; });
+
+        // 1. Ventas por Categoría (S/)
+        const ventasCat = {};
+        detalles.forEach(d => {
+            const prod = mapaProductos[d.id_producto];
+            if (!prod) return;
+            const nombreCat = mapaCategorias[prod.id_categoria] || 'Otros';
+            const subtotal = (Number(d.cantidad) || 0) * (Number(d.precio_unitario) || 0);
+            ventasCat[nombreCat] = (ventasCat[nombreCat] || 0) + subtotal;
+        });
+
+        // 2. Productos más Vendidos (Unidades)
+        const prodVendidos = {};
+        detalles.forEach(d => {
+            const prod = mapaProductos[d.id_producto];
+            const nombreProd = prod ? prod.nombre : `Producto #${d.id_producto}`;
+            prodVendidos[nombreProd] = (prodVendidos[nombreProd] || 0) + (Number(d.cantidad) || 0);
+        });
+        const topProductos = Object.entries(prodVendidos)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 6);
+
+        // 3. Precio Promedio por Categoría (S/)
+        const preciosCat = {};
+        productos.forEach(p => {
+            const nombreCat = mapaCategorias[p.id_categoria] || 'Otros';
+            if (!preciosCat[nombreCat]) preciosCat[nombreCat] = { suma: 0, cuenta: 0 };
+            preciosCat[nombreCat].suma += Number(p.precio) || 0;
+            preciosCat[nombreCat].cuenta += 1;
+        });
+        const labelsPrecios = Object.keys(preciosCat);
+        const valoresPrecios = labelsPrecios.map(c =>
+            Number((preciosCat[c].suma / preciosCat[c].cuenta).toFixed(2))
+        );
+
+        // 4. Pedidos por Estado
+        const estadosPed = {};
+        pedidos.forEach(p => {
+            const est = p.estado || 'Pendiente';
+            estadosPed[est] = (estadosPed[est] || 0) + 1;
+        });
+
+        // 5. Clientes Frecuentes (N° de Pedidos)
+        const clientesFreq = {};
+        pedidos.forEach(p => {
+            const nombreCli = mapaClientes[p.id_cliente] || `Cliente #${p.id_cliente}`;
+            clientesFreq[nombreCli] = (clientesFreq[nombreCli] || 0) + 1;
+        });
+        const topClientes = Object.entries(clientesFreq)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 6);
+
+        // 6. Descuentos Aplicados por Mes (S/)
+        const nombresMeses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const descuentosMes = {};
+        detalles.forEach(d => {
+            const prod = mapaProductos[d.id_producto];
+            const ped = mapaPedidos[d.id_pedido];
+            if (!prod || !ped) return;
+            const pct = Number(prod.descuento) || 0;
+            if (pct <= 0) return;
+            const fecha = ped.fecha_pedido ? new Date(ped.fecha_pedido) : new Date();
+            const mesLabel = `${nombresMeses[fecha.getMonth()]} ${fecha.getFullYear()}`;
+            const montoDesc = (Number(d.precio_unitario) || 0) * (Number(d.cantidad) || 0) * (pct / 100);
+            descuentosMes[mesLabel] = (descuentosMes[mesLabel] || 0) + montoDesc;
+        });
+
+        res.json({
+            ventasPorCategoria: {
+                labels: Object.keys(ventasCat),
+                valores: Object.values(ventasCat).map(v => Number(v.toFixed(2)))
+            },
+            productosMasVendidos: {
+                labels: topProductos.map(([k]) => k),
+                valores: topProductos.map(([, v]) => v)
+            },
+            preciosPorCategoria: {
+                labels: labelsPrecios,
+                valores: valoresPrecios
+            },
+            pedidosPorEstado: {
+                labels: Object.keys(estadosPed),
+                valores: Object.values(estadosPed)
+            },
+            clientesFrecuentes: {
+                labels: topClientes.map(([k]) => k),
+                valores: topClientes.map(([, v]) => v)
+            },
+            descuentosAplicados: {
+                labels: Object.keys(descuentosMes),
+                valores: Object.values(descuentosMes).map(v => Number(v.toFixed(2)))
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ========================================================
+// POBLACIÓN BASE Y ARRANQUE DEL SERVIDOR
+// ========================================================
 async function poblarProductosBase() {
     try {
         const { data: productosExistentes, error: errorCheck } =
@@ -275,7 +623,8 @@ async function poblarProductosBase() {
                     precio: 18.50,
                     imagen: './assets/img/Productos/Pollo.png',
                     id_admin: 1,
-                    id_categoria: 1
+                    id_categoria: 1,
+                    descuento: 10
                 },
                 {
                     nombre: 'Cortes de Cerdo',
@@ -285,7 +634,8 @@ async function poblarProductosBase() {
                     precio: 25.00,
                     imagen: './assets/img/Productos/Cerdo.png',
                     id_admin: 1,
-                    id_categoria: 2
+                    id_categoria: 2,
+                    descuento: 0
                 },
                 {
                     nombre: 'Embutidos Selectos',
@@ -295,7 +645,8 @@ async function poblarProductosBase() {
                     precio: 12.90,
                     imagen: './assets/img/Productos/Embutidos.png',
                     id_admin: 1,
-                    id_categoria: 3
+                    id_categoria: 3,
+                    descuento: 15
                 },
                 {
                     nombre: 'Huevos de Corral',
@@ -305,7 +656,8 @@ async function poblarProductosBase() {
                     precio: 8.50,
                     imagen: './assets/img/Productos/Huevos.png',
                     id_admin: 1,
-                    id_categoria: 4
+                    id_categoria: 4,
+                    descuento: 0
                 },
                 {
                     nombre: 'Productos Preparados',
@@ -315,7 +667,8 @@ async function poblarProductosBase() {
                     precio: 22.00,
                     imagen: './assets/img/Productos/Preparados.png',
                     id_admin: 1,
-                    id_categoria: 5
+                    id_categoria: 5,
+                    descuento: 5
                 },
                 {
                     nombre: 'Aceite Vegetal',
@@ -325,7 +678,8 @@ async function poblarProductosBase() {
                     precio: 9.90,
                     imagen: './assets/img/Productos/Aceite.png',
                     id_admin: 1,
-                    id_categoria: 6
+                    id_categoria: 6,
+                    descuento: 0
                 }
             ];
 
@@ -353,61 +707,6 @@ async function poblarProductosBase() {
         console.error('Error al cargar productos base:', error);
     }
 }
-
-// === API DE CAPACITACIONES DE DESARROLLADORES (SUPABSE) ===
-
-// Obtener las capacitaciones de un integrante específico
-app.get('/api/capacitaciones/:id_desarrollador', async (req, res) => {
-    const idDesarrollador = parseInt(req.params.id_desarrollador, 10);
-
-    const { data, error } = await supabase
-        .from('capacitacion')
-        .select('*')
-        .eq('id_desarrollador', idDesarrollador)
-        .order('id_capacitacion', { ascending: true });
-
-    if (error) return res.status(500).json({ error: error.message });
-    res.json(data);
-});
-
-// Registrar una nueva capacitación
-app.post('/api/capacitaciones', async (req, res) => {
-    const { id_desarrollador, titulo, institucion, anio, id_admin } = req.body;
-
-    if (!id_desarrollador || !titulo || !titulo.trim()) {
-        return res.status(400).json({ exito: false, mensaje: 'Faltan datos obligatorios (desarrollador y título).' });
-    }
-
-    const { data, error } = await supabase
-        .from('capacitacion')
-        .insert([
-            {
-                id_desarrollador: parseInt(id_desarrollador, 10),
-                titulo: titulo.trim(),
-                institucion: institucion ? institucion.trim() : null,
-                anio: anio ? anio.trim() : null,
-                id_admin: id_admin ? parseInt(id_admin, 10) : 1
-            }
-        ])
-        .select()
-        .single();
-
-    if (error) return res.status(500).json({ exito: false, error: error.message });
-    res.json({ exito: true, mensaje: 'Capacitación agregada correctamente', data });
-});
-
-// Eliminar una capacitación agregada (útil para pruebas o correcciones)
-app.delete('/api/capacitaciones/:id', async (req, res) => {
-    const idCapacitacion = parseInt(req.params.id, 10);
-
-    const { error } = await supabase
-        .from('capacitacion')
-        .delete()
-        .eq('id_capacitacion', idCapacitacion);
-
-    if (error) return res.status(500).json({ exito: false, error: error.message });
-    res.json({ exito: true, mensaje: 'Capacitación eliminada' });
-});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
