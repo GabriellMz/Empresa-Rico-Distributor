@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RICO - Nosotros</title>
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/nosotros.css">
+    <link rel="stylesheet" href="style/desarrolladores.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center py-1" href="index.html">
+                <img src="./assets/img/Logo Rico/logo oficial blanco - fondo transparente.png" alt="Logo RICO"
+                    height="42" class="d-inline-block">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#anuncios">Anuncios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
+                </ul>
+
+                <!-- Carrito de compras -->
+                <button type="button" class="btn btn-link text-white position-relative p-1 me-3"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito"
+                    title="Ver carrito" aria-label="Ver carrito">
+                    <i class="bi bi-cart3 fs-5"></i>
+                    <span id="contadorCarrito"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none">0</span>
+                </button>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-light" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Login</button>
+                    <button class="btn btn-warning fw-bold text-dark" data-bs-toggle="modal"
+                        data-bs-target="#registroModal">Registro</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slider Institucional -->
+    <header id="carruselNosotros" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carruselNosotros" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#carruselNosotros" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carruselNosotros" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="./assets/img/Imagenes Carrusel/carrusel1.png" class="d-block w-100" alt="RICO Alimentos 1">
+                <div class="carousel-caption d-none d-md-block nosotros-caption">
+                    <h2 class="fw-bold">Conoce al Equipo RICO</h2>
+                    <p>Estudiantes UTP detrás del proyecto Empresa Rico Distributor</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/img/Imagenes Carrusel/carrusel2.jpg" class="d-block w-100" alt="RICO Alimentos 2">
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/img/Imagenes Carrusel/carrusel3.jpg" class="d-block w-100" alt="RICO Alimentos 3">
+            </div>
+        </div>
+    </header>
+
+    <!-- Mapa Organizacional -->
+    <section id="organigrama" class="org-section py-5 mt-4 mx-auto">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-kicker mb-2">quiénes somos</p>
+                <h2 class="section-title mb-2">Mapa Organizacional del Equipo</h2>
+                <p class="section-intro mb-0">Estructura del equipo de trabajo UTP a cargo del proyecto.</p>
+            </div>
+
+            <div class="org-chart">
+                <!-- Nivel 1: Coordinador -->
+                <div class="org-node org-node-lead">
+                    <div class="org-node-header">Gabriel Alejandro Apac Martínez</div>
+                    <div class="org-node-body">Coordinador / Desarrollador Backend</div>
+                </div>
+
+                <!-- Conectores en árbol: tronco vertical + línea horizontal + ramas hacia cada tarjeta -->
+                <div class="org-tree-connector" aria-hidden="true">
+                    <div class="org-trunk"></div>
+                    <div class="org-branch-line"></div>
+                    <div class="org-branch"></div>
+                    <div class="org-branch"></div>
+                    <div class="org-branch"></div>
+                    <div class="org-branch"></div>
+                    <div class="org-branch"></div>
+                </div>
+
+                <!-- Nivel 2: Integrantes -->
+                <div class="org-level org-level-team">
+                    <div class="org-node">
+                        <div class="org-node-header">Mauricio Sebastian Ramos Carranza</div>
+                        <div class="org-node-body">Desarrollador<br>Front-End / DevOps</div>
+                    </div>
+                    <div class="org-node">
+                        <div class="org-node-header">Sebastian Victor Arteaga León</div>
+                        <div class="org-node-body">Desarrollador<br>Front-End</div>
+                    </div>
+                    <div class="org-node">
+                        <div class="org-node-header">Fernando Jose Yanac Tomaiconsa</div>
+                        <div class="org-node-body">Desarrollador<br>Front-End</div>
+                    </div>
+                    <div class="org-node">
+                        <div class="org-node-header">Manuel Angel Huarac Valle</div>
+                        <div class="org-node-body">Desarrollador<br>Full-Stack</div>
+                    </div>
+                    <div class="org-node">
+                        <div class="org-node-header">Sergio Alberto Sánchez Chunga</div>
+                        <div class="org-node-body">Analista de Requisitos<br>/ Backend</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seccion Metodologia -->
+    <section id="metodologia" class="methodology-section bg-light py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-kicker mb-2">cómo trabajamos</p>
+                <h2 class="section-title mb-2">Descripción de la Metodología de Programación</h2>
+                <p class="section-intro mb-0">El equipo desarrolló el proyecto bajo el marco de trabajo <strong
+                        class="text-rico">Scrum</strong>. Cada Avance del curso fue un sprint completo, con su propio
+                    ciclo de Backlog, Planning, Ejecución, Review y Retrospectiva.</p>
+            </div>
+
+            <div class="accordion scrum-accordion" id="acordeonScrum">
+
+                <!-- Sprint 1 -->
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#sprint1" aria-expanded="true" aria-controls="sprint1">
+                            <span class="sprint-badge">Sprint 1</span> Avance 1
+                        </button>
+                    </h3>
+                    <div id="sprint1" class="accordion-collapse collapse show" data-bs-parent="#acordeonScrum">
+                        <div class="accordion-body">
+                            <ul class="scrum-steps">
+                                <li>
+                                    <strong><i class="bi bi-journal-text me-2"></i>Product Backlog y
+                                        Refinamiento</strong>
+                                    <p>Se definieron los requisitos iniciales a partir de la rúbrica del curso: página
+                                        pública con información de la empresa, catálogo de 6 productos, modales de
+                                        Login/Registro y estructura base con Node.js y Bootstrap 5.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-list-check me-2"></i>Sprint Planning</strong>
+                                    <p>Se repartieron roles según fortalezas: Gabriel en estructura de carpetas y
+                                        servidor Express; Sebastian A. en identidad visual; Fernando en multimedia;
+                                        Manuel en redacción de contenido; Sergio en la entrevista de campo; Mauricio
+                                        en GitHub y documentación del informe.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-arrow-repeat me-2"></i>Ejecución del Sprint y Daily
+                                        Scrum</strong>
+                                    <p>Se maquetó el esqueleto de <code>index.html</code>, se aplicaron los colores
+                                        corporativos en <code>style.css</code>, se conectaron el carrusel y el video
+                                        institucional, y se redactó la historia, misión y visión. Coordinaciones
+                                        cortas por grupo para destrabar rutas de imágenes y dependencias entre
+                                        tareas.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-clipboard-check me-2"></i>Sprint Review</strong>
+                                    <p>Se sustentó el Avance 1 ante el docente, mostrando la página pública
+                                        funcionando con el framework obligatorio, el carrusel, el video y los
+                                        modales de autenticación maquetados.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-arrow-counterclockwise me-2"></i>Sprint
+                                        Retrospective</strong>
+                                    <p>El equipo identificó que faltaba una base de datos real detrás del formulario
+                                        de Login y del catálogo, lo que se convirtió en la prioridad del Backlog del
+                                        Sprint 2.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sprint 2 -->
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#sprint2" aria-expanded="false" aria-controls="sprint2">
+                            <span class="sprint-badge">Sprint 2</span> Avance 2
+                        </button>
+                    </h3>
+                    <div id="sprint2" class="accordion-collapse collapse" data-bs-parent="#acordeonScrum">
+                        <div class="accordion-body">
+                            <ul class="scrum-steps">
+                                <li>
+                                    <strong><i class="bi bi-journal-text me-2"></i>Product Backlog y
+                                        Refinamiento</strong>
+                                    <p>A partir de la retrospectiva del Sprint 1, se incorporó al Backlog: base de
+                                        datos en Supabase, APIs REST en <code>server.js</code>, CRUD de productos,
+                                        login funcional con sesión, y búsqueda dinámica/estática.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-list-check me-2"></i>Sprint Planning</strong>
+                                    <p>Gabriel se encargó de Supabase y las APIs; Fernando del CRUD y búsqueda
+                                        dinámica del panel; Sebastian A. del catálogo público (20+ productos) con su
+                                        propia búsqueda dinámica; Manuel del login y protección de rutas; Sergio de
+                                        los modelos E-R y la búsqueda estática; Mauricio del maquetado del
+                                        dashboard.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-arrow-repeat me-2"></i>Ejecución del Sprint y Daily
+                                        Scrum</strong>
+                                    <p>Se crearon las tablas <code>administrador</code> y <code>producto</code> en
+                                        Supabase, se conectó el backend, se programaron las 4 acciones del CRUD, el
+                                        catálogo dinámico y las alertas con SweetAlert2. Coordinaciones frecuentes
+                                        para evitar conflictos de ramas al fusionar en GitHub.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-clipboard-check me-2"></i>Sprint Review</strong>
+                                    <p>Se sustentó el Avance 2 mostrando el panel de administrador operativo, el
+                                        catálogo público alimentado desde Supabase y las dos búsquedas (dinámica y
+                                        estática) funcionando en vivo.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-arrow-counterclockwise me-2"></i>Sprint
+                                        Retrospective</strong>
+                                    <p>El equipo detectó que el panel de administrador no tenía protección real
+                                        contra accesos no autorizados y que faltaba una sección de equipo/CVs para la
+                                        presentación final; ambos puntos pasaron al Backlog del Sprint 3.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sprint 3 -->
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#sprint3" aria-expanded="false" aria-controls="sprint3">
+                            <span class="sprint-badge">Sprint 3</span> Avance 3
+                        </button>
+                    </h3>
+                    <div id="sprint3" class="accordion-collapse collapse" data-bs-parent="#acordeonScrum">
+                        <div class="accordion-body">
+                            <ul class="scrum-steps">
+                                <li>
+                                    <strong><i class="bi bi-journal-text me-2"></i>Product Backlog y
+                                        Refinamiento</strong>
+                                    <p>Se agregó al Backlog la página <code>nosotros.html</code>, el mapa
+                                        organizacional, la metodología, las tarjetas de los 6 desarrolladores con sus
+                                        CVs, la vista previa y completa del CV, la exportación a PDF, y la sección
+                                        institucional de contacto con la empresa.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-list-check me-2"></i>Sprint Planning</strong>
+                                    <p>Gabriel asumió la estructura de <code>nosotros.html</code> y el módulo
+                                        dinámico de certificados en Supabase; Mauricio el slider, el organigrama y
+                                        esta metodología; Sebastian A. las tarjetas de desarrolladores y
+                                        <code>cvs-data.js</code>; Fernando el modal de vista previa de los 6 CVs;
+                                        Manuel <code>cv-completo.html</code> y el PDF; Sergio la sección de contacto
+                                        institucional.
+                                    </p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-arrow-repeat me-2"></i>Ejecución del Sprint y Daily
+                                        Scrum</strong>
+                                    <p>Se maquetaron en paralelo el slider, el organigrama y las tarjetas de
+                                        desarrolladores; se programó la lógica del modal de vista previa y de la
+                                        vista completa con exportación a PDF. Coordinaciones constantes entre
+                                        Mauricio, Sebastian A. y Fernando porque sus módulos comparten el mismo
+                                        archivo <code>nosotros.html</code>.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-clipboard-check me-2"></i>Sprint Review</strong>
+                                    <p>Sustentación del Avance 3 mostrando <code>nosotros.html</code> completo:
+                                        organigrama, metodología, tarjetas de los 6 integrantes, vista previa modal
+                                        de cada CV, vista completa en pestaña nueva y descarga en PDF.</p>
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-arrow-counterclockwise me-2"></i>Sprint
+                                        Retrospective</strong>
+                                    <p>Cierre del proyecto: Gabriel supervisó la fusión final de todas las ramas en
+                                        <code>main</code> sin conflictos, y el equipo documentó lecciones aprendidas
+                                        para el informe final del curso.
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DESARROLLADORES -->
+    <main class="developers-section py-5">
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <span class="text-danger fw-bold">RICO ALIMENTOS</span>
+
+                <h2 class="fw-bold">Conoce a nuestro equipo</h2>
+
+                <p class="text-muted">
+                    Selecciona un integrante para conocer su perfil profesional,
+                    capacidades y experiencia.
+                </p>
+
+            </div>
+
+
+            <!-- BOTONES DE ROLES -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-12">
+
+                    <div class="d-flex justify-content-center flex-wrap gap-2">
+
+                        <button type="button" class="btn btn-outline-danger fw-bold" onclick="mostrarRol(1)"
+                            id="btn-rol-1">
+                            Gerente de Diseño Web
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger fw-bold" onclick="mostrarRol(2)"
+                            id="btn-rol-2">
+                            Gerente de Desarrollo
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger fw-bold" onclick="mostrarRol(3)"
+                            id="btn-rol-3">
+                            Desarrollador Backend
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger fw-bold" onclick="mostrarRol(4)"
+                            id="btn-rol-4">
+                            Desarrollador Full Stack
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger fw-bold" onclick="mostrarRol(5)"
+                            id="btn-rol-5">
+                            Analista QA
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger fw-bold" onclick="mostrarRol(6)"
+                            id="btn-rol-6">
+                            Frontend Developer
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- PERFIL DEL INTEGRANTE -->
+            <div class="developer-profile border border-danger p-4 p-md-5 rounded-4 shadow-sm">
+
+                <div class="row align-items-center">
+
+                    <!-- FOTO Y DOCUMENTOS -->
+                    <div class="col-md-4 text-center mb-4 mb-md-0">
+
+                        <div class="mb-4">
+                            <img id="fotoPerfil" src="img/img1.jpeg" alt="Fotografía del desarrollador"
+                                class="perfil-img">
+                        </div>
+
+                        <h3 id="nombre" class="fw-bold">Walter Rosell</h3>
+
+                        <p id="rolNombre" class="text-danger fw-semibold">
+                            Gerente de Diseño Web
+                        </p>
+
+                        <div class="d-flex flex-column gap-2">
+
+                            <button type="button" id="btn-cv" class="btn btn-danger btn-sm fw-bold"
+                                onclick="abrirModalCV()">
+                                <i class="bi bi-person-vcard me-2"></i>
+                                Ver CV
+                            </button>
+
+                            <a href="#" id="btn-cert-1" target="_blank" rel="noopener noreferrer"
+                                class="btn btn-outline-danger btn-sm">
+                                Certificado 1
+                            </a>
+
+                            <a href="#" id="btn-cert-2" target="_blank" rel="noopener noreferrer"
+                                class="btn btn-outline-danger btn-sm">
+                                Certificado 2
+                            </a>
+
+                        </div>
+                    </div>
+
+
+                    <!-- INFORMACIÓN -->
+                    <div class="col-md-8">
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-code-slash me-2"></i>
+                                Herramientas de desarrollo
+                            </h5>
+
+                            <ul id="herramientas" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-braces me-2"></i>
+                                Lenguajes de programación
+                            </h5>
+
+                            <ul id="lenguajes" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-laptop me-2"></i>
+                                Capacidades de programación
+                            </h5>
+
+                            <ul id="capacidades" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-people me-2"></i>
+                                Habilidades blandas
+                            </h5>
+
+                            <ul id="habilidades" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                        <div class="border rounded-3 p-3">
+                            <h5 class="fw-bold text-danger">
+                                <i class="bi bi-mortarboard me-2"></i>
+                                Certificaciones y capacitaciones
+                            </h5>
+
+                            <ul id="capacitaciones" class="list-unstyled mb-0"></ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal Vista Previa CV (Fernando Yanac) -->
+    <div class="modal fade" id="modalVistaPreviaCV" data-bs-focus="false" tabindex="-1" aria-labelledby="modalVistaPreviaCVLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold" id="modalVistaPreviaCVLabel">
+                        <i class="bi bi-person-vcard-fill me-2"></i>Vista Previa de CV
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="cuerpoVistaPreviaCV">
+                    <!-- Cabecera del perfil dentro del modal -->
+                    <div class="d-flex flex-column flex-sm-row align-items-center gap-3 pb-3 mb-3 border-bottom">
+                        <img id="modalFotoPerfil" src="" alt="Foto Desarrollador"
+                            class="rounded-circle border border-3 border-danger shadow-sm"
+                            style="width: 110px; height: 110px; object-fit: cover;">
+                        <div class="text-center text-sm-start flex-grow-1">
+                            <h4 id="modalNombre" class="fw-bold mb-1 text-dark"></h4>
+                            <span id="modalRolNombre" class="badge bg-danger fs-6 mb-2"></span>
+                            <div id="modalCertificadosContainer"
+                                class="d-flex flex-wrap gap-2 mt-1 justify-content-center justify-content-sm-start">
+                                <!-- Enlaces a certificados generados dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grilla de detalles técnicos -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-code-slash me-2"></i>Herramientas de Desarrollo
+                                </h6>
+                                <ul id="modalHerramientas" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-braces me-2"></i>Lenguajes de Programación
+                                </h6>
+                                <ul id="modalLenguajes" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-laptop me-2"></i>Capacidades Técnicas
+                                </h6>
+                                <ul id="modalCapacidades" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <h6 class="fw-bold text-danger mb-2">
+                                    <i class="bi bi-people me-2"></i>Habilidades Blandas
+                                </h6>
+                                <ul id="modalHabilidades" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3 bg-light">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold text-danger mb-0">
+                                        <i class="bi bi-mortarboard me-2"></i>Certificaciones y Capacitaciones
+                                    </h6>
+                                    <span class="badge bg-secondary" id="modalCapacitacionesCount">0</span>
+                                </div>
+                                <ul id="modalCapacitaciones" class="list-unstyled mb-0 small"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-danger fw-bold" id="btnAgregarCapacitacion"
+                        onclick="agregarNuevaCapacitacion()">
+                        <i class="bi bi-plus-circle me-1"></i>Agregar capacitación
+                    </button>
+                    <a href="#" target="_blank" rel="noopener noreferrer" id="btnVerCVCompleto"
+                        class="btn btn-danger fw-bold">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>Ver CV Completo
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Sección Empresa -->
+    <section id="contacto-empresa" class="company-contact-section bg-light py-5">
+        <div class="container text-center">
+            <p class="section-kicker mb-2">NUESTROS AGRADECIMIENTOS</p>
+            <h2 class="section-title mb-4">RICO Alimentos</h2>
+
+            <!-- Representante de contacto -->
+            <div class="representante d-flex align-items-center justify-content-center gap-3 mb-4">
+                <img src="assets/img/Agradecimiento/mauricio.jpg" alt="Mauricio Waldyr Cruz Valdivia"
+                    class="rounded-circle object-fit-cover">
+
+                <div class="text-start">
+                    <h5 class="mb-1">Mauricio Waldyr Cruz Valdivia</h5>
+                    <p class="mb-1">Supervisor de Distribución</p>
+                    <small class="text-muted">Persona de contacto del proyecto</small>
+                </div>
+            </div>
+
+            <!-- Agradecimiento -->
+            <p class="agradecimiento-texto">
+                Agradecemos a RICO Alimentos por su colaboración y confianza
+                durante el desarrollo de este proyecto, así como a la
+                Universidad Tecnológica del Perú (UTP) por los conocimientos
+                y herramientas brindados.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-dark text-white pt-5 pb-3 mt-4">
+        <div class="container">
+            <div class="row text-center text-md-start justify-content-center">
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-warning fw-bold">Síguenos en Redes</h5>
+                    <div class="fs-3 mt-3">
+                        <a href="https://www.facebook.com/ricoalimentosperu/?locale=es_LA" target="_blank"
+                            rel="noopener noreferrer" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.instagram.com/ricoalimentosperu/reels/" target="_blank"
+                            rel="noopener noreferrer" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@tiendasrico" target="_blank" rel="noopener noreferrer"
+                            class="text-white me-3"><i class="bi bi-tiktok"></i></a>
+                        <a href="https://api.whatsapp.com/send?phone=51959637676" target="_blank"
+                            rel="noopener noreferrer" class="text-white"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-warning fw-bold">Contacto Comercial</h5>
+                    <ul class="list-unstyled mt-3 text-light">
+                        <li class="mb-2">
+                            <i class="bi bi-person-fill text-danger me-2"></i>
+                            <strong>Mauricio Waldyr Cruz Valdivia</strong>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-briefcase-fill text-danger me-2"></i>
+                            Supervisor de Distribución
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-envelope-fill text-danger me-2"></i>
+                            <a href="mailto:Mauricio.cruz@ricopollo.pe"
+                                class="text-light text-decoration-none">Mauricio.cruz@ricopollo.pe</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-telephone-fill text-danger me-2"></i>
+                            <a href="tel:+51973251352" class="text-light text-decoration-none">+51 973 251 352</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                    class="col-md-4 mb-4 d-flex flex-column align-items-center align-items-md-end justify-content-center">
+                    <p class="mb-2 text-light small fw-bold">Proyecto desarrollado en:</p>
+                    <a href="https://www.utp.edu.pe/" target="_blank" rel="noopener noreferrer">
+                        <img src="./assets/img/Logo UTP/logoUTP.png" alt="Logo UTP" class="logo-utp shadow">
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 text-secondary border-top border-secondary pt-3">
+                <small>&copy; 2026 RICO. Todos los derechos reservados. Proyecto Académico.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <!-- ==========================================
+         MODALES DE AUTENTICACIÓN
+         ========================================== -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formLogin">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Usuario</label>
+                            <input type="text" class="form-control" name="usuario" placeholder="Ingresa tu usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Contraseña</label>
+                            <input type="password" class="form-control" name="clave" placeholder="******" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 fw-bold mt-2">Ingresar al Sistema</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Crear Cuenta Nueva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre Completo</label>
+                            <input type="text" class="form-control" placeholder="Ej. Juan Pérez">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Correo Electrónico</label>
+                            <input type="email" class="form-control" placeholder="usuario@correo.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Crear Contraseña</label>
+                            <input type="password" class="form-control" placeholder="******">
+                        </div>
+                        <button type="button" class="btn btn-warning w-100 fw-bold mt-2 text-dark">Registrarme
+                            Ahora</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/alertas.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/navbar-auth.js"></script>
+    <script src="js/carrito.js"></script>
+    <script src="js/cvs-data.js"></script>
+    <script src="js/capacitaciones-supabase.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
