@@ -360,11 +360,22 @@ app.post('/api/pedidos', async (req, res) => {
     const carrito = req.body?.items;
     const nombreCliente = String(cliente.razon_social || cliente.nombre || '').trim();
     const correo = String(cliente.email || '').trim();
-    const telefono = String(cliente.telefono || '').trim();
+    const documento = String(cliente.documento || cliente.ruc || '').trim();
+    const tipoDocumento = String(cliente.tipo_documento || (documento.length === 11 ? 'RUC' : 'DNI')).toUpperCase();
+    const telefono = String(cliente.telefono || '').replace(/\D/g, '');
     const direccion = String(cliente.direccion || '').trim();
 
     if (!nombreCliente || !Array.isArray(carrito) || carrito.length === 0 || carrito.length > 100) {
         return res.status(400).json({ exito: false, mensaje: 'Ingresa tus datos y agrega productos al carrito.' });
+    }
+    const documentoValido = tipoDocumento === 'DNI'
+        ? /^\d{8}$/.test(documento)
+        : tipoDocumento === 'RUC' && /^\d{11}$/.test(documento);
+    if (!documentoValido) {
+        return res.status(400).json({ exito: false, mensaje: 'El documento no coincide con el tipo seleccionado.' });
+    }
+    if (!/^9\d{8}$/.test(telefono)) {
+        return res.status(400).json({ exito: false, mensaje: 'El teléfono debe tener 9 dígitos.' });
     }
     if (!correo || !/^\S+@\S+\.\S+$/.test(correo)) {
         return res.status(400).json({ exito: false, mensaje: 'Ingresa un correo electrónico válido.' });
@@ -438,7 +449,7 @@ app.post('/api/pedidos', async (req, res) => {
             .from('cliente')
             .insert([{
                 razon_social: nombreCliente,
-                ruc: String(cliente.documento || cliente.ruc || '').trim() || null,
+                ruc: documento,
                 telefono: telefono || null,
                 direccion: direccion || null,
                 email: correo
@@ -481,7 +492,8 @@ app.post('/api/pedidos', async (req, res) => {
                 empresa: { nombre: 'Corporación Rico S.A.C. · Rico Alimentos', ruc: RICO_RUC },
                 cliente: {
                     razon_social: nombreCliente,
-                    documento: String(cliente.documento || cliente.ruc || '').trim(),
+                    documento,
+                    tipo_documento: tipoDocumento,
                     telefono,
                     direccion,
                     email: correo
