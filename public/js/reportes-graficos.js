@@ -156,13 +156,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // 4. Pedidos por Estado
+    const mapaColoresEstado = {
+        "Realizado": "#198754",
+        "Pendiente": "#ffc107",
+        "Cancelado": "#dc3545"
+    };
+
     new Chart(document.getElementById("chartPedidosEstado"), {
         type: "doughnut",
         data: {
             labels: datos.pedidosPorEstado.labels,
             datasets: [{
                 data: datos.pedidosPorEstado.valores,
-                backgroundColor: ["#198754", "#0d6efd", "#ffc107", "#dc3545"]
+                backgroundColor: datos.pedidosPorEstado.labels.map(
+                    (estado) => mapaColoresEstado[estado] || "#0d6efd"
+                )
             }]
         },
         options: {
@@ -194,7 +202,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } }
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    }
+                }
+            }
         }
     });
     if (datos.clientesFrecuentes.valores.length > 0) {

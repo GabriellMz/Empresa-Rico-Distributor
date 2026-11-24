@@ -86,7 +86,7 @@ app.patch('/api/productos/:id/estado', async (req, res) => {
 app.get('/api/pedidos', async (req, res) => {
     try {
         const [resPed, resCli, resDet, resProd] = await Promise.all([
-            supabase.from('pedido').select('*').order('id_pedido', { ascending: false }),
+            supabase.from('pedido').select('*').order('fecha_pedido', { ascending: false }),
             supabase.from('cliente').select('*'),
             supabase.from('detalle_pedido').select('*'),
             supabase.from('producto').select('id_producto, nombre, precio')
@@ -810,13 +810,19 @@ app.get('/api/reportes', async (req, res) => {
             const prod = mapaProductos[d.id_producto];
             const ped = mapaPedidos[d.id_pedido];
             if (!prod || !ped) return;
-            const pct = Number(prod.descuento) || 0;
+            const pct = Number(DESCUENTOS_OFERTA_CHECKOUT[prod.id_producto]) || Number(prod.descuento) || 0;
             if (pct <= 0) return;
             const fecha = ped.fecha_pedido ? new Date(ped.fecha_pedido) : new Date();
-            const mesLabel = `${nombresMeses[fecha.getMonth()]} ${fecha.getFullYear()}`;
+            const claveOrden = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, '0')}`;
+            const label = `${nombresMeses[fecha.getMonth()]} ${fecha.getFullYear()}`;
             const montoDesc = (Number(d.precio_unitario) || 0) * (Number(d.cantidad) || 0) * (pct / 100);
-            descuentosMes[mesLabel] = (descuentosMes[mesLabel] || 0) + montoDesc;
+            if (!descuentosMes[claveOrden]) descuentosMes[claveOrden] = { label, monto: 0 };
+            descuentosMes[claveOrden].monto += montoDesc;
         });
+
+        const descuentosOrdenados = Object.entries(descuentosMes)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([, v]) => v);
 
         res.json({
             ventasPorCategoria: {
@@ -840,8 +846,8 @@ app.get('/api/reportes', async (req, res) => {
                 valores: topClientes.map(([, v]) => v)
             },
             descuentosAplicados: {
-                labels: Object.keys(descuentosMes),
-                valores: Object.values(descuentosMes).map(v => Number(v.toFixed(2)))
+                labels: descuentosOrdenados.map(d => d.label),
+                valores: descuentosOrdenados.map(d => Number(d.monto.toFixed(2)))
             }
         });
     } catch (err) {
