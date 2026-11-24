@@ -342,72 +342,171 @@ app.delete('/api/capacitaciones/:id', async (req, res) => {
 // ========================================================
 // 4. PEDIDOS / CARRITO Y BOLETA
 // ========================================================
-app.post('/api/pedidos', async (req, res) => {
-    const { cliente, items, total } = req.body;
+const DESCUENTOS_OFERTA_CHECKOUT = {
+    1: 15,
+    2: 10,
+    11: 20,
+    13: 12,
+    15: 25,
+    20: 18
+};
+const RICO_RUC = process.env.RICO_RUC || '20506421781';
+const TASA_IGV = 0.18;
+const redondearDinero = valor => Math.round((Number(valor) + Number.EPSILON) * 100);
+const solesDesdeCentimos = centimos => centimos / 100;
 
-    if (!cliente || !items || items.length === 0) {
-        return res.status(400).json({ exito: false, mensaje: 'Faltan datos del cliente o productos en el carrito.' });
+app.post('/api/pedidos', async (req, res) => {
+    const cliente = req.body?.cliente || {};
+    const carrito = req.body?.items;
+    const nombreCliente = String(cliente.razon_social || cliente.nombre || '').trim();
+    const correo = String(cliente.email || '').trim();
+    const telefono = String(cliente.telefono || '').trim();
+    const direccion = String(cliente.direccion || '').trim();
+
+    if (!nombreCliente || !Array.isArray(carrito) || carrito.length === 0 || carrito.length > 100) {
+        return res.status(400).json({ exito: false, mensaje: 'Ingresa tus datos y agrega productos al carrito.' });
+    }
+    if (!correo || !/^\S+@\S+\.\S+$/.test(correo)) {
+        return res.status(400).json({ exito: false, mensaje: 'Ingresa un correo electrónico válido.' });
     }
 
-    try {
-        let idCliente = 1;
-        if (cliente.razon_social) {
-            const { data: nuevoCliente, error: errCliente } = await supabase
-                .from('cliente')
-                .insert([{
-                    razon_social: cliente.razon_social,
-                    ruc: cliente.ruc || null,
-                    telefono: cliente.telefono || null,
-                    direccion: cliente.direccion || null,
-                    email: cliente.email || null
-                }])
-                .select()
-                .single();
+    const cantidades = new Map();
+    for (const item of carrito) {
+        const id = Number(item.id_producto ?? item.id);
+        const cantidad = Number(item.cantidad);
+        if (!Number.isInteger(id) || id <= 0 || !Number.isInteger(cantidad) || cantidad <= 0 || cantidad > 1000) {
+            return res.status(400).json({ exito: false, mensaje: 'Hay un producto o una cantidad no válida en el carrito.' });
+        }
+        cantidades.set(id, (cantidades.get(id) || 0) + cantidad);
+    }
 
-            if (!errCliente && nuevoCliente) {
-                idCliente = nuevoCliente.id_cliente;
-            }
+    let clienteCreado = null;
+    let pedidoCreado = null;
+    try {
+        const ids = [...cantidades.keys()];
+        const { data: productos, error: errorProductos } = await supabase
+            .from('producto')
+            .select('id_producto, nombre, precio, descuento')
+            .in('id_producto', ids);
+        if (errorProductos) throw errorProductos;
+        if (!productos || productos.length !== ids.length) {
+            return res.status(400).json({ exito: false, mensaje: 'Uno o más productos ya no están disponibles.' });
         }
 
-        const { data: pedidoCreado, error: errPedido } = await supabase
+        let subtotalCentimos = 0;
+        let subtotalConOfertasCentimos = 0;
+        const itemsBoleta = productos.map(producto => {
+            const id = Number(producto.id_producto);
+            const cantidad = cantidades.get(id);
+            const precioCentimos = redondearDinero(producto.precio);
+            if (!Number.isSafeInteger(precioCentimos) || precioCentimos <= 0) {
+                throw new Error(`El precio del producto ${id} no es válido.`);
+            }
+            const descuentoSugerido = Number(DESCUENTOS_OFERTA_CHECKOUT[id]) ||
+                (Number(producto.descuento) >= 5 ? Number(producto.descuento) : 0);
+            const descuento = Math.min(100, Math.max(0, descuentoSugerido));
+            const precioOfertaCentimos = Math.round(precioCentimos * (1 - descuento / 100));
+            const subtotalItemCentimos = precioCentimos * cantidad;
+            const subtotalOfertaCentimos = precioOfertaCentimos * cantidad;
+            subtotalCentimos += subtotalItemCentimos;
+            subtotalConOfertasCentimos += subtotalOfertaCentimos;
+            return {
+                id_producto: id,
+                nombre: producto.nombre,
+                cantidad,
+                precio_unitario: solesDesdeCentimos(precioCentimos),
+                descuento_porcentaje: descuento,
+                precio_con_descuento: solesDesdeCentimos(precioOfertaCentimos),
+                subtotal: solesDesdeCentimos(subtotalOfertaCentimos)
+            };
+        });
+
+        const cupon = subtotalConOfertasCentimos > 15000
+            ? { codigo: 'RICO15', porcentaje: 15 }
+            : subtotalConOfertasCentimos > 10000
+                ? { codigo: 'RICO10', porcentaje: 10 }
+                : null;
+        const descuentoOfertasCentimos = subtotalCentimos - subtotalConOfertasCentimos;
+        const descuentoCuponCentimos = cupon
+            ? Math.round(subtotalConOfertasCentimos * cupon.porcentaje / 100)
+            : 0;
+        const totalCentimos = subtotalConOfertasCentimos - descuentoCuponCentimos;
+        const baseImponibleCentimos = Math.round(totalCentimos / (1 + TASA_IGV));
+        const igvCentimos = totalCentimos - baseImponibleCentimos;
+
+        const { data: nuevoCliente, error: errorCliente } = await supabase
+            .from('cliente')
+            .insert([{
+                razon_social: nombreCliente,
+                ruc: String(cliente.documento || cliente.ruc || '').trim() || null,
+                telefono: telefono || null,
+                direccion: direccion || null,
+                email: correo
+            }])
+            .select('id_cliente')
+            .single();
+        if (errorCliente) throw errorCliente;
+        clienteCreado = nuevoCliente;
+
+        const { data: pedido, error: errorPedido } = await supabase
             .from('pedido')
             .insert([{
-                estado: 'Entregado',
-                total: parseFloat(total) || 0,
-                id_cliente: idCliente,
+                estado: 'Pendiente',
+                total: solesDesdeCentimos(totalCentimos),
+                id_cliente: nuevoCliente.id_cliente,
                 id_admin: 1
             }])
-            .select()
+            .select('id_pedido, fecha_pedido, total')
             .single();
+        if (errorPedido) throw errorPedido;
+        pedidoCreado = pedido;
 
-        if (errPedido) return res.status(500).json({ exito: false, error: errPedido.message });
-
-        const detalles = items.map(item => ({
-            id_pedido: pedidoCreado.id_pedido,
+        const detalles = itemsBoleta.map(item => ({
+            id_pedido: pedido.id_pedido,
             id_producto: item.id_producto,
             cantidad: item.cantidad,
-            precio_unitario: item.precio_unitario
+            precio_unitario: item.precio_con_descuento
         }));
-
-        const { error: errDetalle } = await supabase
+        const { error: errorDetalle } = await supabase
             .from('detalle_pedido')
             .insert(detalles);
+        if (errorDetalle) throw errorDetalle;
 
-        if (errDetalle) return res.status(500).json({ exito: false, error: errDetalle.message });
-
-        res.json({
+        return res.status(201).json({
             exito: true,
             mensaje: 'Compra registrada correctamente',
             boleta: {
-                numero: `B001-${String(pedidoCreado.id_pedido).padStart(6, '0')}`,
-                fecha: pedidoCreado.fecha_pedido,
-                cliente,
-                items,
-                total: pedidoCreado.total
+                numero: `B001-${String(pedido.id_pedido).padStart(6, '0')}`,
+                fecha: pedido.fecha_pedido || new Date().toISOString(),
+                empresa: { nombre: 'Corporación Rico S.A.C. · Rico Alimentos', ruc: RICO_RUC },
+                cliente: {
+                    razon_social: nombreCliente,
+                    documento: String(cliente.documento || cliente.ruc || '').trim(),
+                    telefono,
+                    direccion,
+                    email: correo
+                },
+                items: itemsBoleta,
+                subtotal: solesDesdeCentimos(subtotalCentimos),
+                descuento_ofertas: solesDesdeCentimos(descuentoOfertasCentimos),
+                descuento_cupon: solesDesdeCentimos(descuentoCuponCentimos),
+                cupon,
+                base_imponible: solesDesdeCentimos(baseImponibleCentimos),
+                igv_porcentaje: TASA_IGV * 100,
+                igv: solesDesdeCentimos(igvCentimos),
+                total: pedido.total
             }
         });
     } catch (err) {
-        res.status(500).json({ exito: false, error: err.message });
+        console.error('Error al registrar el pedido:', err.message || err);
+        if (pedidoCreado?.id_pedido) {
+            await supabase.from('detalle_pedido').delete().eq('id_pedido', pedidoCreado.id_pedido);
+            await supabase.from('pedido').delete().eq('id_pedido', pedidoCreado.id_pedido);
+        }
+        if (clienteCreado?.id_cliente) {
+            await supabase.from('cliente').delete().eq('id_cliente', clienteCreado.id_cliente);
+        }
+        return res.status(500).json({ exito: false, mensaje: 'No se pudo guardar el pedido. Inténtalo nuevamente.' });
     }
 });
 

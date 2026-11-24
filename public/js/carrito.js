@@ -401,5 +401,66 @@ document.addEventListener('DOMContentLoaded', () => {
         Carrito.vaciar();
     });
 
-    // Botón "Finalizar compra": la lógica de pago la implementa otro integrante.
+    document.getElementById('btnFinalizarCompra').addEventListener('click', async evento => {
+        if (!Carrito.items.length) return;
+        const boton = evento.currentTarget;
+        const { value: cliente } = await Swal.fire({
+            title: 'Datos para tu comprobante',
+            html: `
+                <form id="formCheckout" class="text-start">
+                    <label class="form-label" for="checkoutNombre">Nombre o razón social *</label>
+                    <input id="checkoutNombre" class="form-control mb-3" maxlength="120" autocomplete="name" required>
+                    <label class="form-label" for="checkoutDocumento">DNI o RUC</label>
+                    <input id="checkoutDocumento" class="form-control mb-3" maxlength="20" inputmode="numeric" autocomplete="off">
+                    <label class="form-label" for="checkoutCorreo">Correo electrónico *</label>
+                    <input id="checkoutCorreo" type="email" class="form-control mb-3" maxlength="160" autocomplete="email" required>
+                    <label class="form-label" for="checkoutTelefono">Teléfono</label>
+                    <input id="checkoutTelefono" type="tel" class="form-control mb-3" maxlength="30" autocomplete="tel">
+                    <label class="form-label" for="checkoutDireccion">Dirección</label>
+                    <input id="checkoutDireccion" class="form-control" maxlength="180" autocomplete="street-address">
+                    <p class="small text-muted mt-3 mb-0">Los precios y descuentos se confirmarán al registrar el pedido.</p>
+                </form>`,
+            confirmButtonText: 'Registrar pedido',
+            confirmButtonColor: '#dc3545',
+            showCancelButton: true,
+            cancelButtonText: 'Volver al carrito',
+            focusConfirm: false,
+            preConfirm: () => {
+                const form = document.getElementById('formCheckout');
+                if (!form.reportValidity()) return false;
+                return {
+                    razon_social: document.getElementById('checkoutNombre').value.trim(),
+                    documento: document.getElementById('checkoutDocumento').value.trim(),
+                    email: document.getElementById('checkoutCorreo').value.trim(),
+                    telefono: document.getElementById('checkoutTelefono').value.trim(),
+                    direccion: document.getElementById('checkoutDireccion').value.trim()
+                };
+            }
+        });
+        if (!cliente) return;
+
+        boton.disabled = true;
+        try {
+            const respuesta = await fetch('/api/pedidos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cliente,
+                    items: Carrito.items.map(item => ({ id_producto: item.id, cantidad: item.cantidad }))
+                })
+            });
+            const resultado = await respuesta.json();
+            if (!respuesta.ok || !resultado.exito) {
+                throw new Error(resultado.mensaje || 'No se pudo registrar el pedido.');
+            }
+
+            Carrito.vaciar();
+            bootstrap.Offcanvas.getInstance(document.getElementById('offcanvasCarrito'))?.hide();
+            if (typeof Boleta !== 'undefined') Boleta.mostrar(resultado.boleta);
+        } catch (error) {
+            Swal.fire({ icon: 'error', title: 'No se pudo finalizar la compra', text: error.message });
+        } finally {
+            boton.disabled = false;
+        }
+    });
 });
