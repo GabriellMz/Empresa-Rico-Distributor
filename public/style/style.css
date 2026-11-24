@@ -323,3 +323,31 @@ footer a:hover {
         max-width: 120px;
     }
 }
+
+/* ==========================================
+   AJUSTES DE OFERTAS Y CARRITO DE COMPRAS
+   ========================================== */
+
+/* Mantener la etiqueta amarilla de descuento siempre encima de la imagen al hacer hover */
+.product-card .badge {
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Miniatura ordenada de cada producto dentro del panel del carrito */
+.carrito-img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+    padding: 4px;
+    border: 1px solid #eee;
+}
+
+/* Precio anterior tachado en ofertas y carrito */
+.precio-antes {
+    text-decoration: line-through;
+    color: #6c757d;
+    margin-right: 6px;
+}
