@@ -55,6 +55,137 @@ app.post('/api/login', async (req, res) => {
 });
 
 // ========================================================
+// STANDBY / ACTIVAR PRODUCTO (CRUD ADMIN)
+// ========================================================
+app.patch('/api/productos/:id/estado', async (req, res) => {
+    try {
+        const idProducto = parseInt(req.params.id, 10);
+        const { activo } = req.body;
+
+        const { data, error } = await supabase
+            .from('producto')
+            .update({ activo: Boolean(activo) })
+            .eq('id_producto', idProducto)
+            .select()
+            .single();
+
+        if (error) return res.status(500).json({ exito: false, error: error.message });
+        res.json({
+            exito: true,
+            mensaje: activo ? 'Producto activado en catálogo' : 'Producto puesto en Standby',
+            data
+        });
+    } catch (error) {
+        res.status(500).json({ exito: false, error: error.message });
+    }
+});
+
+// ========================================================
+// GESTIÓN DE PEDIDOS (PANEL ADMIN - pedidos.html)
+// ========================================================
+app.get('/api/pedidos', async (req, res) => {
+    try {
+        const [resPed, resCli, resDet, resProd] = await Promise.all([
+            supabase.from('pedido').select('*').order('id_pedido', { ascending: false }),
+            supabase.from('cliente').select('*'),
+            supabase.from('detalle_pedido').select('*'),
+            supabase.from('producto').select('id_producto, nombre, precio')
+        ]);
+
+        if (resPed.error) return res.status(500).json({ error: resPed.error.message });
+
+        const mapaClientes = {};
+        (resCli.data || []).forEach(c => { mapaClientes[c.id_cliente] = c; });
+
+        const mapaProductos = {};
+        (resProd.data || []).forEach(p => { mapaProductos[p.id_producto] = p; });
+
+        const pedidosCompletos = (resPed.data || []).map(p => {
+            const cliente = mapaClientes[p.id_cliente] || {};
+            const items = (resDet.data || [])
+                .filter(d => d.id_pedido === p.id_pedido)
+                .map(d => ({
+                    ...d,
+                    nombre_producto: mapaProductos[d.id_producto]?.nombre || `Producto #${d.id_producto}`
+                }));
+
+            return {
+                ...p,
+                cliente_nombre: [cliente.nombre, cliente.razon_social].filter(Boolean).join(' · ') || `Cliente #${p.id_cliente}`,
+                cliente_ruc: cliente.ruc || '-',
+                cliente_telefono: cliente.telefono || '-',
+                cliente_email: cliente.email || '-',
+                cliente_direccion: cliente.direccion || '-',
+                items
+            };
+        });
+
+        res.json(pedidosCompletos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put('/api/pedidos/:id/estado', async (req, res) => {
+    try {
+        const idPedido = parseInt(req.params.id, 10);
+        const { estado } = req.body;
+        const estadosValidos = ['Pendiente', 'Realizado', 'Cancelado'];
+
+        if (!estadosValidos.includes(estado)) {
+            return res.status(400).json({ exito: false, mensaje: 'Estado no válido.' });
+        }
+
+        const { data, error } = await supabase
+            .from('pedido')
+            .update({ estado })
+            .eq('id_pedido', idPedido)
+            .select()
+            .single();
+
+        if (error) return res.status(500).json({ exito: false, error: error.message });
+        res.json({ exito: true, mensaje: `Pedido #${idPedido} actualizado a ${estado}`, data });
+    } catch (err) {
+        res.status(500).json({ exito: false, error: err.message });
+    }
+});
+
+app.delete('/api/pedidos/:id', async (req, res) => {
+    try {
+        const idPedido = parseInt(req.params.id, 10);
+
+        if (isNaN(idPedido)) {
+            return res.status(400).json({ exito: false, mensaje: 'ID de pedido inválido.' });
+        }
+
+        // 1. Eliminar primero los productos asociados en detalle_pedido
+        const { error: errDetalle } = await supabase
+            .from('detalle_pedido')
+            .delete()
+            .eq('id_pedido', idPedido);
+
+        if (errDetalle) return res.status(500).json({ exito: false, error: errDetalle.message });
+
+        // 2. Eliminar la cabecera del pedido
+        const { data, error: errPedido } = await supabase
+            .from('pedido')
+            .delete()
+            .eq('id_pedido', idPedido)
+            .select();
+
+        if (errPedido) return res.status(500).json({ exito: false, error: errPedido.message });
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ exito: false, mensaje: 'No se encontró el pedido.' });
+        }
+
+        res.json({ exito: true, mensaje: `Pedido #${idPedido} eliminado correctamente.` });
+    } catch (err) {
+        res.status(500).json({ exito: false, error: err.message });
+    }
+});
+
+// ========================================================
 // 2. PRODUCTOS, BÚSQUEDA, OFERTAS Y UPLOAD DE IMÁGENES
 // ========================================================
 app.get('/api/productos', async (req, res) => {
@@ -66,6 +197,12 @@ app.get('/api/productos', async (req, res) => {
             .from('producto')
             .select('*')
             .order('id_producto', { ascending: true });
+
+        // Si la petición viene del sitio público (no de admin.html), oculta los productos en Standby
+        const esAdmin = (req.headers.referer || '').includes('admin.html') || req.query.todos === 'true';
+        if (!esAdmin) {
+            consulta = consulta.neq('activo', false);
+        }
 
         if (buscar) {
             const texto = buscar.replace(/[,%()]/g, ' ').trim();
@@ -445,10 +582,19 @@ app.post('/api/pedidos', async (req, res) => {
         const baseImponibleCentimos = Math.round(totalCentimos / (1 + TASA_IGV));
         const igvCentimos = totalCentimos - baseImponibleCentimos;
 
+        const esPersona = tipoDocumento === 'DNI';
+        const nombreFinal = cliente._campos_separados
+            ? (String(cliente.nombre || '').trim() || null)
+            : (esPersona ? nombreCliente : null);
+        const razonSocialFinal = cliente._campos_separados
+            ? (String(cliente.razon_social || '').trim() || null)
+            : (esPersona ? null : nombreCliente);
+
         const { data: nuevoCliente, error: errorCliente } = await supabase
             .from('cliente')
             .insert([{
-                razon_social: nombreCliente,
+                nombre: nombreFinal,
+                razon_social: razonSocialFinal,
                 ruc: documento,
                 telefono: telefono || null,
                 direccion: direccion || null,
@@ -599,7 +745,9 @@ app.get('/api/reportes', async (req, res) => {
         productos.forEach(p => { mapaProductos[p.id_producto] = p; });
 
         const mapaClientes = {};
-        clientes.forEach(c => { mapaClientes[c.id_cliente] = c.razon_social; });
+        clientes.forEach(c => {
+            mapaClientes[c.id_cliente] = c.razon_social || c.nombre || `Cliente #${c.id_cliente}`;
+        });
 
         const mapaPedidos = {};
         pedidos.forEach(p => { mapaPedidos[p.id_pedido] = p; });

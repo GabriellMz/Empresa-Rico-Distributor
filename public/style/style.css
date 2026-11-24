@@ -345,3 +345,50 @@ footer a:hover {
     object-fit: contain;
     background-color: var(--color-light);
 }
+
+/* ==========================================
+   ORDEN Y TIPOGRAFÍA DEL MODAL DE COMPROBANTE
+   ========================================== */
+   .swal2-popup {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+    border-radius: 14px !important;
+}
+
+.swal2-title {
+    font-size: 1.45rem !important;
+    font-weight: 700 !important;
+    color: #212529 !important;
+}
+
+.swal2-html-container {
+    text-align: left !important;
+    font-size: 0.92rem !important;
+}
+
+.swal2-html-container label,
+.swal2-html-container legend {
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    color: #343a40 !important;
+    margin-bottom: 0.3rem !important;
+    display: block;
+}
+
+.swal2-html-container .form-check-label {
+    font-weight: 500 !important;
+    display: inline-block !important;
+    margin-bottom: 0 !important;
+}
+
+.swal2-html-container .form-control {
+    font-size: 0.92rem !important;
+    padding: 0.48rem 0.75rem !important;
+}
+
+.checkout-error-msg {
+    color: #dc3545;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    display: none;
+}
