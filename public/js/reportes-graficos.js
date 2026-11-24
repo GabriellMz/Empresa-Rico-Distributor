@@ -229,7 +229,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         const maxDesc = obtenerMaximo(datos.descuentosAplicados.labels, datos.descuentosAplicados.valores);
         document.getElementById("descDescuentosAplicados").textContent =
             `Se otorgaron S/ ${totalDesc.toFixed(2)} en descuentos acumulados; el pico promocional se registró en ${maxDesc.label} con S/ ${maxDesc.valor.toFixed(2)}.`;
-    } else {
-        document.getElementById("descDescuentosAplicados").textContent = "Sin datos registrados aún.";
+        } else {
+        document.getElementById("descDescuentosAplicados").textContent =
+            "Sin datos registrados aún.";
     }
+
+    // Notificar que los reportes están disponibles
+    window.reportesListos = true;
+
+    document.dispatchEvent(
+        new Event("reportesListos")
+    );
 });
