@@ -401,5 +401,218 @@ document.addEventListener('DOMContentLoaded', () => {
         Carrito.vaciar();
     });
 
-    // Botón "Finalizar compra": la lógica de pago la implementa otro integrante.
+    async function solicitarDatosCheckout(datosIniciales = {}) {
+        const documentoPrevio = String(datosIniciales.documento || '');
+        const resultado = await Swal.fire({
+            title: 'Datos para tu comprobante',
+            html: `
+                <form id="formCheckout" class="text-start" novalidate>
+                    <label class="form-label" for="checkoutNombre">Nombre o razón social *</label>
+                    <input id="checkoutNombre" class="form-control" maxlength="120" autocomplete="name" aria-describedby="checkoutNombreError" required>
+                    <small id="checkoutNombreError" class="text-danger d-block mb-3" aria-live="polite"></small>
+
+                    <fieldset class="mb-2">
+                        <legend class="form-label mb-1">Tipo de documento *</legend>
+                        <div class="d-flex gap-3">
+                            <label class="form-check"><input class="form-check-input" type="radio" name="tipoDocumento" id="tipoDocumentoDni" value="DNI"> <span class="form-check-label">DNI</span></label>
+                            <label class="form-check"><input class="form-check-input" type="radio" name="tipoDocumento" id="tipoDocumentoRuc" value="RUC"> <span class="form-check-label">RUC</span></label>
+                        </div>
+                    </fieldset>
+                    <label class="form-label" for="checkoutDni">DNI *</label>
+                    <input id="checkoutDni" class="form-control" maxlength="20" inputmode="numeric" autocomplete="off" aria-describedby="checkoutDocumentoError" required>
+                    <label class="form-label mt-2" for="checkoutRuc">RUC *</label>
+                    <input id="checkoutRuc" class="form-control" maxlength="20" inputmode="numeric" autocomplete="off" aria-describedby="checkoutDocumentoError" required>
+                    <small id="checkoutDocumentoError" class="text-danger d-block mb-3" aria-live="polite"></small>
+
+                    <label class="form-label" for="checkoutCorreo">Correo electrónico *</label>
+                    <input id="checkoutCorreo" type="email" class="form-control" maxlength="160" autocomplete="email" aria-describedby="checkoutCorreoError" required>
+                    <small id="checkoutCorreoError" class="text-danger d-block mb-3" aria-live="polite"></small>
+
+                    <label class="form-label" for="checkoutTelefono">Teléfono *</label>
+                    <input id="checkoutTelefono" type="tel" class="form-control" maxlength="20" inputmode="numeric" autocomplete="tel" aria-describedby="checkoutTelefonoError" required>
+                    <small id="checkoutTelefonoError" class="text-danger d-block mb-3" aria-live="polite"></small>
+
+                    <label class="form-label" for="checkoutDireccion">Dirección</label>
+                    <input id="checkoutDireccion" class="form-control" maxlength="180" autocomplete="street-address">
+                    <p class="small text-muted mt-3 mb-0">Revisarás estos datos antes de registrar el pedido.</p>
+                </form>`,
+            confirmButtonText: 'Revisar datos',
+            confirmButtonColor: '#dc3545',
+            showCancelButton: true,
+            cancelButtonText: 'Volver al carrito',
+            focusConfirm: false,
+            didOpen: () => {
+                const nombre = document.getElementById('checkoutNombre');
+                const dni = document.getElementById('checkoutDni');
+                const ruc = document.getElementById('checkoutRuc');
+                const correo = document.getElementById('checkoutCorreo');
+                const telefono = document.getElementById('checkoutTelefono');
+                const tipoDni = document.getElementById('tipoDocumentoDni');
+                const tipoRuc = document.getElementById('tipoDocumentoRuc');
+                nombre.value = datosIniciales.razon_social || '';
+                correo.value = datosIniciales.email || '';
+                telefono.value = datosIniciales.telefono || '';
+                document.getElementById('checkoutDireccion').value = datosIniciales.direccion || '';
+                const tipoInicial = datosIniciales.tipo_documento || (documentoPrevio.length === 11 ? 'RUC' : 'DNI');
+                tipoDni.checked = tipoInicial !== 'RUC';
+                tipoRuc.checked = tipoInicial === 'RUC';
+                if (tipoInicial === 'RUC') ruc.value = documentoPrevio;
+                else dni.value = documentoPrevio;
+
+                const tipoDocumento = () => tipoRuc.checked ? 'RUC' : 'DNI';
+                const campoDocumentoActivo = () => tipoDocumento() === 'RUC' ? ruc : dni;
+                let documentoTocado = Boolean(documentoPrevio);
+                const actualizarCamposDocumento = () => {
+                    dni.disabled = tipoRuc.checked;
+                    ruc.disabled = tipoDni.checked;
+                    dni.classList.toggle('bg-light', dni.disabled);
+                    ruc.classList.toggle('bg-light', ruc.disabled);
+                    validarDocumento(documentoTocado);
+                };
+                const mensajeDocumento = campo => {
+                    if (!campo.value) return 'Ingresa el número del documento.';
+                    const longitud = tipoDocumento() === 'RUC' ? 11 : 8;
+                    return campo.value.length === longitud ? '' : `El ${tipoDocumento()} debe tener ${longitud} dígitos.`;
+                };
+                const mostrarError = (elemento, mensaje) => {
+                    elemento.textContent = mensaje;
+                    elemento.classList.toggle('mb-3', Boolean(mensaje));
+                };
+                const validarNombre = mostrar => {
+                    const valor = nombre.value.trim();
+                    const mensaje = !valor ? 'Ingresa el nombre o razón social.' : valor.length < 3 ? 'Escribe al menos 3 caracteres.' : '';
+                    if (mostrar) mostrarError(document.getElementById('checkoutNombreError'), mensaje);
+                    return !mensaje;
+                };
+                const validarDocumento = mostrar => {
+                    const campo = campoDocumentoActivo();
+                    const mensaje = mensajeDocumento(campo);
+                    if (mostrar) mostrarError(document.getElementById('checkoutDocumentoError'), mensaje);
+                    return !mensaje;
+                };
+                const validarCorreo = mostrar => {
+                    const mensaje = !correo.value.trim() ? 'Ingresa tu correo electrónico.' : !correo.checkValidity() ? 'Ingresa un correo electrónico válido.' : '';
+                    if (mostrar) mostrarError(document.getElementById('checkoutCorreoError'), mensaje);
+                    return !mensaje;
+                };
+                const validarTelefono = mostrar => {
+                    const mensaje = !telefono.value ? 'Ingresa tu teléfono.' : telefono.value.length === 9 ? '' : 'El teléfono debe tener 9 dígitos.';
+                    if (mostrar) mostrarError(document.getElementById('checkoutTelefonoError'), mensaje);
+                    return !mensaje;
+                };
+                const limitarADigitos = (campo, validador) => {
+                    campo.addEventListener('input', () => {
+                        campo.value = campo.value.replace(/\D/g, '');
+                        validador(true);
+                    });
+                    campo.addEventListener('blur', () => validador(true));
+                };
+                [nombre, correo].forEach((campo, indice) => {
+                    const validar = indice === 0 ? validarNombre : validarCorreo;
+                    campo.addEventListener('input', () => validar(true));
+                    campo.addEventListener('blur', () => validar(true));
+                });
+                limitarADigitos(dni, () => { documentoTocado = true; validarDocumento(true); });
+                limitarADigitos(ruc, () => { documentoTocado = true; validarDocumento(true); });
+                limitarADigitos(telefono, validarTelefono);
+                tipoDni.addEventListener('change', actualizarCamposDocumento);
+                tipoRuc.addEventListener('change', actualizarCamposDocumento);
+                actualizarCamposDocumento();
+                validarNombre(Boolean(nombre.value));
+                validarCorreo(Boolean(correo.value));
+                validarTelefono(Boolean(telefono.value));
+                nombre.focus();
+
+                window.checkoutValidarFormulario = () => ({
+                    nombre: validarNombre(true), documento: validarDocumento(true),
+                    correo: validarCorreo(true), telefono: validarTelefono(true)
+                });
+            },
+            willClose: () => { delete window.checkoutValidarFormulario; },
+            preConfirm: () => {
+                const valido = window.checkoutValidarFormulario?.();
+                if (!valido || Object.values(valido).some(correcto => !correcto)) return false;
+                const tipo_documento = document.getElementById('tipoDocumentoRuc').checked ? 'RUC' : 'DNI';
+                const documento = document.getElementById(tipo_documento === 'RUC' ? 'checkoutRuc' : 'checkoutDni').value;
+                return {
+                    razon_social: document.getElementById('checkoutNombre').value.trim(),
+                    tipo_documento,
+                    documento,
+                    email: document.getElementById('checkoutCorreo').value.trim(),
+                    telefono: document.getElementById('checkoutTelefono').value,
+                    direccion: document.getElementById('checkoutDireccion').value.trim()
+                };
+            }
+        });
+        return resultado.isConfirmed ? resultado.value : null;
+    }
+
+    document.getElementById('btnFinalizarCompra').addEventListener('click', async evento => {
+        if (!Carrito.items.length) return;
+        const boton = evento.currentTarget;
+        const panelCarrito = document.getElementById('offcanvasCarrito');
+        const offcanvas = bootstrap.Offcanvas.getInstance(panelCarrito);
+        if (panelCarrito.classList.contains('show') && offcanvas) {
+            await new Promise(resolve => {
+                panelCarrito.addEventListener('hidden.bs.offcanvas', resolve, { once: true });
+                offcanvas.hide();
+            });
+        }
+
+        let cliente = await solicitarDatosCheckout();
+        while (cliente) {
+            const revision = await Swal.fire({
+                title: 'Revisa tus datos',
+                html: `<div class="text-start">
+                    <p><strong>Nombre:</strong> ${escaparHtml(cliente.razon_social)}</p>
+                    <p><strong>${escaparHtml(cliente.tipo_documento || (String(cliente.documento).length === 11 ? 'RUC' : 'DNI'))}:</strong> ${escaparHtml(cliente.documento)}</p>
+                    <p><strong>Correo:</strong> ${escaparHtml(cliente.email)}</p>
+                    <p><strong>Teléfono:</strong> ${escaparHtml(cliente.telefono)}</p>
+                    <p><strong>Dirección:</strong> ${escaparHtml(cliente.direccion || 'No indicada')}</p>
+                </div>`,
+                confirmButtonText: 'Confirmar datos',
+                confirmButtonColor: '#dc3545',
+                showDenyButton: true,
+                denyButtonText: 'Editar datos',
+                showCancelButton: true,
+                cancelButtonText: 'Volver al carrito'
+            });
+            if (revision.isConfirmed) break;
+            if (revision.isDenied) {
+                cliente = await solicitarDatosCheckout(cliente);
+                continue;
+            }
+            cliente = null;
+        }
+
+        if (!cliente) {
+            bootstrap.Offcanvas.getOrCreateInstance(panelCarrito).show();
+            return;
+        }
+
+        boton.disabled = true;
+        try {
+            const respuesta = await fetch('/api/pedidos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cliente,
+                    items: Carrito.items.map(item => ({ id_producto: item.id, cantidad: item.cantidad }))
+                })
+            });
+            const resultado = await respuesta.json();
+            if (!respuesta.ok || !resultado.exito) {
+                throw new Error(resultado.mensaje || 'No se pudo registrar el pedido.');
+            }
+
+            Carrito.vaciar();
+            bootstrap.Offcanvas.getInstance(panelCarrito)?.hide();
+            if (typeof Boleta !== 'undefined') Boleta.mostrar(resultado.boleta);
+        } catch (error) {
+            await Swal.fire({ icon: 'error', title: 'No se pudo finalizar la compra', text: error.message });
+            bootstrap.Offcanvas.getOrCreateInstance(panelCarrito).show();
+        } finally {
+            boton.disabled = false;
+        }
+    });
 });
