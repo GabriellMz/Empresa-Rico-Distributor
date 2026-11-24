@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Si ya está logueado y entra a login.html, lo manda directo al panel
-    if (localStorage.getItem('ricoAdminSession')) {
+    if (localStorage.getItem('ricoAdminSession') && document.getElementById('loginClave')) {
         window.location.href = 'admin.html';
         return;
     }
